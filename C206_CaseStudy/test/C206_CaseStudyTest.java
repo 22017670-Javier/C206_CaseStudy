@@ -1,5 +1,7 @@
 import static org.junit.Assert.*;
+
 import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +10,7 @@ public class C206_CaseStudyTest {
 	private Stall s1;
 	private Stall s2;
 	private ArrayList<Stall> stallList;
-	
+
 	public C206_CaseStudyTest() {
 		super();
 	}
@@ -20,7 +22,7 @@ public class C206_CaseStudyTest {
 		stallList= new ArrayList<Stall>();
 	}
 
-	
+
 
 	@Test
 	public void c206_test() {
@@ -48,7 +50,7 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.addStall(stallList, stall_missing);
 		assertEquals("Test that the Stall arraylist size is unchange.", 2, stallList.size());
 	}
-	
+
 	@After
 	public void tearDown() throws Exception {
 		s1 = null;
