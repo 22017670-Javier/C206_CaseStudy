@@ -14,27 +14,30 @@ public class C206_CaseStudy {
 		while (option != -1) {
 			C206_CaseStudy.menu();
 			option = Helper.readInt("Enter an option > ");
-			
-			if(option == 1) {
-				C206_CaseStudy.viewAllStall(stallList);
+			if (option == 1) {
+				
 			}
 			else if(option == 2) {
-				Stall s = inputStall();
-				C206_CaseStudy.addStall(stallList, s);
-				System.out.println("Stall added");
+				C206_CaseStudy.viewAllStall(stallList);
+				int addOrDelete = Helper.readInt("Do you want to add (1) or delete (2) a stall? Enter your choice > ");
+	            if (addOrDelete == 1) {
+	                Stall s = inputStall();
+	                C206_CaseStudy.addStall(stallList, s);
+	                System.out.println("Stall added");
+	            } else if (addOrDelete == 2) {
+	                String stallName = Helper.readString("Enter the stall name to delete: ");
+	                C206_CaseStudy.deleteStall(stallList, stallName);
+	            }
+				
 			}
-			else if(option == 3) {
-				String stallName = Helper.readString("Enter the stall name to delete: ");
-		        C206_CaseStudy.deleteStall(stallList, stallName);
-			}
+			
 		}
 		
 	}
 	public static void menu() {
 		C206_CaseStudy.setHeader("Canteen Ordering and Queuing System");
-		System.out.println("1) Display Stall Information");
-		System.out.println("2) Add new stall");
-		System.out.println("3) Delete Existing Stall");
+		System.out.println("1) Display User Information");
+		System.out.println("2) Display Stall Information");
 		System.out.println("Enter '-1' to Quit");
 		Helper.line(80, "-");
 
