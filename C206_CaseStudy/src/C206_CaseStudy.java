@@ -9,98 +9,86 @@ public class C206_CaseStudy {
 		stallList.add(new Stall("frozen yogurt", "dessert"));
 
 		int mode = 0; //mode determines what account is being used to access the system
-		int option = 0;
 
 		while (mode != 4) {
+			int option = 0;
+			
 			accMenu();
 			mode = Helper.readInt("Choose account to proceed > ");
 
 			if (mode == 1) {
 				System.out.println("Logged in as admin!");
 
-				while (option != 16) {
+				while (option != 11) {
 					C206_CaseStudy.adminMenu();
 					option = Helper.readInt("Enter an option > ");
 
 					if (option == 1) {
-						//add a new user
-
-					}
-
-					else if (option == 2) {
 						//view all users
 
 					}
 
+					else if (option == 2) {
+						//add or delete user
+
+					}
+
 					else if (option == 3) {
-						//delete existing user
-
-					}
-
-					else if (option == 4) {
-						//add a new stall
-						Stall s = inputStall();
-						C206_CaseStudy.addStall(stallList, s);
-						System.out.println("Stall added");
-					}
-
-					else if (option == 5) {
 						//view all stalls
 						C206_CaseStudy.viewAllStall(stallList);
 					}
 
-					else if (option == 6) {
-						//delete existing stall
-						String stallName = Helper.readString("Enter the stall name to delete: ");
-						C206_CaseStudy.deleteStall(stallList, stallName);
+					else if (option == 4) {
+						//add or delete stall
+						int addOrDelete = Helper.readInt("Do you want to add (1) or delete (2) a stall? Enter your choice > ");
+
+						if (addOrDelete == 1) {
+							Stall s = inputStall();
+							C206_CaseStudy.addStall(stallList, s);
+							System.out.println("Stall added!");
+						} 
+
+						else if (addOrDelete == 2) {
+							String stallName = Helper.readString("Enter the stall name to delete > ");
+							C206_CaseStudy.deleteStall(stallList, stallName);
+						}
+
+						else {
+							System.out.println("Invalid option!");
+						}
 					}
 
-					else if (option == 7) {
-						//add a new menu
-
-					}
-
-					else if (option == 8) {
+					else if (option == 5) {
 						//view all menus
 
 					}
 
-					else if (option == 9) {
-						//delete existing menu
+					else if (option == 6) {
+						//add or delete menu
 
 					}
 
-					else if (option == 10 ) {
-						//add a new order
-
-					}
-
-					else if (option == 11) {
+					else if (option == 7) {
 						//view all orders
 
 					}
 
-					else if (option == 12) {
-						//delete existing order
+					else if (option == 8) {
+						//add or delete order
 
 					}
 
-					else if (option == 13) {
-						//add a new queue
-
-					}
-
-					else if (option == 14) {
+					else if (option == 9) {
 						//view all queues
 
 					}
 
-					else if (option == 15) {
-						//delete existing queue
+					else if (option == 10) {
+						//add or delete queue
 
 					}
 
-					else if (option == 16) {
+					else if (option == 11) {
 						System.out.println("Logged out!");
 					}
 
@@ -114,42 +102,32 @@ public class C206_CaseStudy {
 			else if (mode == 2) {
 				System.out.println("Logged in as Stall Staff");
 
-				while (option != 7) {
+				while (option != 5) {
 					C206_CaseStudy.stallMenu();
 
 					option = Helper.readInt("Enter an option > ");
 
 					if (option == 1) {
-						//add new menu
+						//add or delete new menu
 
 					}
 
 					else if (option == 2) {
-						//delete existing menu
-
-					}
-
-					else if (option == 3) {
 						//view all orders
 
 					}
 
-					else if (option == 4) {
+					else if (option == 3) {
 						//delete existing order
 
 					}
 
+					else if (option == 4) {
+						//add or delete a new queue
+
+					}
+
 					else if (option == 5) {
-						//add a new queue
-
-					}
-
-					else if (option == 6) {
-						//delete existing queue
-
-					}
-
-					else if (option == 7) {
 						System.out.println("Logged out!");
 					}
 
@@ -213,49 +191,42 @@ public class C206_CaseStudy {
 		System.out.println("1. System Admin");
 		System.out.println("2. Stall Staff");
 		System.out.println("3. User");
-		System.out.println("4. Quit");
+		System.out.println("4. Log out");
 		Helper.line(80, "-");
 	}
 
 	public static void adminMenu() {
 		C206_CaseStudy.setHeader("Canteen Ordering and Queuing System (Admin Access)");
-		System.out.println("1.  Add a new user");
-		System.out.println("2.  View all users");
-		System.out.println("3.  Delete existing user");
+		System.out.println("1.  View all users");
+		System.out.println("2.  Add or Delete user");
 
-		System.out.println("4.  Add new stall");
-		System.out.println("5.  View all Stalls");
-		System.out.println("6.  Delete existing Stall");
+		System.out.println("3.  View all Stalls");
+		System.out.println("4.  Add or Delete Stall");
 
-		System.out.println("7.  Add a new menu");
-		System.out.println("8.  View all menus");
-		System.out.println("9.  Delete existing menu");
+		System.out.println("5.  View all menus");
+		System.out.println("6.  Add or Delete menu");
 
-		System.out.println("10. Add a new order");
-		System.out.println("11. View all orders");
-		System.out.println("12. Delete existing order");
+		System.out.println("7.  View all orders");
+		System.out.println("8.  Add or Delete order");
 
-		System.out.println("13. Add a new queue");
-		System.out.println("14. View all queues");
-		System.out.println("15. Delete existing queue");
+		System.out.println("9.  View all queues");
+		System.out.println("10. Add or Delete queue");
 
 		//Exits the system
-		System.out.println("16. Quit");
+		System.out.println("11. Log out");
 		Helper.line(80, "-");
 	}
 
 	public static void stallMenu() {
 		C206_CaseStudy.setHeader("Canteen Ordering and Queuing System (Stall Access)");
 
-		System.out.println("1. Add a new menu");
-		System.out.println("2. Delete existing menu");
-		System.out.println("3. View all orders");
-		System.out.println("4. Delete existing order");
-		System.out.println("5. Add a new queue");
-		System.out.println("6. Delete existing queue");
+		System.out.println("1. Add or Delete menu");
+		System.out.println("2. View all orders");
+		System.out.println("3. Delete existing order");
+		System.out.println("4. Add or Delete queue");
 
 		//Exits the system
-		System.out.println("7. Quit");
+		System.out.println("5. Log out");
 		Helper.line(80, "-");
 	}
 
@@ -306,7 +277,7 @@ public class C206_CaseStudy {
 		} 
 		return output;
 	}
-	
+
 	public static Stall inputStall() {
 
 		String name = Helper.readString("Enter stall name > ");
@@ -315,7 +286,7 @@ public class C206_CaseStudy {
 		Stall newStall = new Stall(name, category);
 		return newStall;
 	}
-	
+
 	//add new stall 
 	public static void addStall(ArrayList<Stall> stallList, Stall s) {
 		Stall stall;
@@ -331,7 +302,7 @@ public class C206_CaseStudy {
 
 		stallList.add(s);
 	}
-	
+
 	//delete existing stall
 	public static void deleteStall(ArrayList<Stall> stallList, String stallName) {
 		for (int i = 0; i < stallList.size(); i++) {
