@@ -15,7 +15,7 @@ public class Stall {
     public String getStallName() {
         return stallName;
     }
-
+ 
     public void setStallName(String stallName) {
         this.stallName = stallName;
     }

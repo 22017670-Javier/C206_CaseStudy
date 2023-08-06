@@ -59,7 +59,7 @@ public class C206_CaseStudy {
 		for (int i = 0; i < stallList.size(); i++) {
 			output += String.format("%-10s %-30s %-20s\n", stallList.get(i).getStallNo(), stallList.get(i).getStallName(), stallList.get(i).getCategory());
 			
-		}
+		} 
 		return output;
 	}
 	public static Stall inputStall() {

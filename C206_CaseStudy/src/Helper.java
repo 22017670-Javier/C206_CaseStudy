@@ -11,7 +11,7 @@ public class Helper {
     System.out.print(prompt);
     return Helper.myScanner.nextLine();
   }
-
+ 
   public static int readInt(String prompt) {
     int input = 0;
     boolean valid = false;
