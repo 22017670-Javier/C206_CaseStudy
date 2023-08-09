@@ -4,7 +4,9 @@ public class C206_CaseStudy {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		ArrayList<Stall> stallList = new ArrayList<Stall>();
+		ArrayList<Stall> stallList = new ArrayList<Stall>(); //Stalls
+		ArrayList<Queue> queueList = new ArrayList<Queue>(); //Queues
+		ArrayList<Order> orderList = new ArrayList<Order>(); //Orders
 
 		stallList.add(new Stall("frozen yogurt", "dessert"));
 
@@ -12,7 +14,7 @@ public class C206_CaseStudy {
 
 		while (mode != 4) {
 			int option = 0;
-			
+
 			accMenu();
 			mode = Helper.readInt("Choose account to proceed > ");
 
@@ -80,11 +82,25 @@ public class C206_CaseStudy {
 
 					else if (option == 9) {
 						//view all queues
+						viewAllQueues(stallList, queueList, orderList);
 
 					}
 
 					else if (option == 10) {
 						//add or delete queue
+						int addOrDelete = Helper.readInt("Do you want to add (1) or delete (2) queue? Enter your choice > ");
+
+						if (addOrDelete == 1) {
+							addQueue(stallList, queueList, orderList);
+						} 
+
+						else if (addOrDelete == 2) {
+							deleteQueue(queueList);
+						}
+
+						else {
+							System.out.println("Invalid option!");
+						}
 
 					}
 
@@ -124,7 +140,19 @@ public class C206_CaseStudy {
 
 					else if (option == 4) {
 						//add or delete a new queue
+						int addOrDelete = Helper.readInt("Do you want to add (1) or delete (2) queue? Enter your choice > ");
 
+						if (addOrDelete == 1) {
+							addQueue(stallList, queueList, orderList);
+						} 
+
+						else if (addOrDelete == 2) {
+							deleteQueue(queueList);
+						}
+
+						else {
+							System.out.println("Invalid option!");
+						}
 					}
 
 					else if (option == 5) {
@@ -162,6 +190,7 @@ public class C206_CaseStudy {
 
 					else if (option == 4) {
 						//view all queues
+						viewAllQueues(stallList, queueList, orderList);
 
 					}
 
@@ -332,9 +361,69 @@ public class C206_CaseStudy {
 
 	//================================= Add/View/Delete Queue =================================
 	//add new queue
+	public static void addQueue(ArrayList<Stall> stallList, ArrayList<Queue> queueList, ArrayList<Order> orderList) {
+		String name = Helper.readString("Enter name of stall > ");
+
+		for (int i = 0; i < stallList.size(); i++) {
+			if (stallList.get(i).getStallName().equalsIgnoreCase(name)) {
+				if (queueList.get(i).getStallName().equalsIgnoreCase(name)) {
+					Queue queue = new Queue(name, orderList.get(i).getOrders(), setEstWait(orderList.get(i).getOrders()));
+					System.out.println("Queue has been added succesfully!");
+				}
+				else {
+					System.out.println("Stall already has a queue!");
+				}
+			}
+			else {
+				System.out.println("Stall does not exist!");
+			}
+		}
+
+	}
 
 	//view all queues
+	public static void viewAllQueues (ArrayList<Stall> stallList, ArrayList<Queue> queueList, ArrayList<Order> orderList) {
+		for (int i = 0; i < stallList.size(); i++) {
+			Queue queue = new Queue(stallList.get(i).getStallName(), orderList.get(i).getOrders(), setEstWait(orderList.get(i).getOrders()));
+		}
+
+		String output = "";
+		output += String.format("%-30s %-15s %-30s\n", "Stall Name", "No. of Orders", "Estimated Waiting Time");
+
+		for (int i = 0; i < queueList.size(); i++) {
+			output += String.format("%-30s %-15d %-30d mins\n", queueList.get(i).getStallName(), queueList.get(i).getOrders(), queueList.get(i).getEstWait());
+
+		} 
+		System.out.println(output);
+	}
 
 	//delete existing queue
+	public static void deleteQueue(ArrayList<Queue> queueList) {
+		String stallName = Helper.readString("Enter stall name for queue to be deleted > ");
 
+		if (queueList.size() >= 1) {
+			for (int i = 0; i < queueList.size(); i++) {
+				if (queueList.get(i).getStallName().equalsIgnoreCase(stallName)) {
+
+					String confirm = Helper.readString("Please enter confirmation for deletion (y/n) > ");
+
+					if (confirm.equalsIgnoreCase("y")) {
+						queueList.remove(i);
+						System.out.println("Queue has been removed successfully!");
+						return;
+					}
+					else {
+						System.out.println("Deletion cancelled!");
+						return;
+					}
+				}
+				else {
+					System.out.println("Queue does not exist!");
+				}
+			}
+		}
+		else {
+			System.out.println("There are no queues available for deletion!");
+		}
+	}
 }

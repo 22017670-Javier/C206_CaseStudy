@@ -9,12 +9,37 @@
 
 public class Queue {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+	private String stallName;
+	private int orders;
+	private int estWait;
 
+	public Queue(String stallName, int orders, int estWait) {
+		this.stallName = stallName;
+		this.orders = orders;
+		this.estWait = estWait;
 	}
 
+	public String getStallName() {
+		return stallName;
+	}
+
+	public int getOrders() {
+		return orders;
+	}
+
+	public void setOrders(int orders) {
+		this.orders = orders;
+	}
+
+	public int getEstWait() {
+		return estWait;
+	}
+
+	public void setEstWait(int orders) {
+		int time = orders * 4;
+		this.estWait = time;
+	}
+
+
 }
+
