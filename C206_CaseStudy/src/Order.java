@@ -8,5 +8,19 @@
  */
 
 public class Order {
+	private int orderNo;
+	private String orderDescription;
+	private double orderPrice;
+	private boolean isCollected;
+	
+	private static int currentNo = 001;
+	
+	public Order(String orderDescription, double orderPrice, boolean isCollected) {
+		this.orderNo = currentNo++;
+		this.orderDescription = orderDescription;
+		this.orderPrice = orderPrice;
+		this.isCollected = isCollected;
+	}
+	
 
 }

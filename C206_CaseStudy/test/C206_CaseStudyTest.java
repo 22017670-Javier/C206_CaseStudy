@@ -27,9 +27,9 @@ public class C206_CaseStudyTest {
 	}
 
 
-
+	//----------Add, View, Delete Stall----------
 	@Test
-	public void c206_test() {
+	public void testAddStall() {
 		//fail("Not yet implemented"); 
 		assertTrue("C206_CaseStudy_SampleTest ",true);
 		// Item list is not null and it is empty
@@ -54,7 +54,31 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.addStall(stallList, stall_missing);
 		assertEquals("Test that the Stall arraylist size is unchange.", 2, stallList.size());
 	}
+	public void testViewAllStall() {
+		// Test if Item list is not null but empty -boundary
+		assertNotNull("Test if there is valid stall arraylist to retrieve item", stallList);
+		
+		//test if the list of stall retrieved from the C206_CaseStudy is empty - boundary
+		String allStall = C206_CaseStudy.viewAllStall(stallList);
+		String testOutput = "";
+		assertEquals("Check that ViewAllStalllist", testOutput, allStall);
+		
+		//Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
+		C206_CaseStudy.addStall(stallList, s1);
+		C206_CaseStudy.addStall(stallList, s2);
+		assertEquals("Test that Camcorder arraylist size is 2", 2, stallList.size());
+		
+		//test if the expected output string same as the list of stall retrieved from the SourceCentre	
+		allStall= C206_CaseStudy.retrieveAllStall(stallList);
+		testOutput = String.format("%-10s %-30s %-20s\n", 1, "Pi Li Hong", "Chinese lok lok");
+		testOutput = String.format("%-10s %-30s %-20s\n", 2, "7-Eleven", "Snack & Drinks");
 	
+		assertEquals("Test that ViewAllStalllist", testOutput, allStall);
+		
+	}
+	
+	
+	//----------Add, View, Delete Queue----------
 	public void testViewAll() {
 		// Test if Item list is not null but empty -boundary
 		assertNotNull("Test if there is valid queue arraylist to retrieve item", queueList);

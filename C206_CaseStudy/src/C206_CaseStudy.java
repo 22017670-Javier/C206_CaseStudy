@@ -288,12 +288,12 @@ public class C206_CaseStudy {
 
 	//================================= Add/View/Delete Stall =================================
 	//view all stalls
-	public static void viewAllStall(ArrayList<Stall> stallList) {
+	public static String viewAllStall(ArrayList<Stall> stallList) {
 		C206_CaseStudy.setHeader("STALL LIST");
 		String output = String.format("%-10s %-30s %-20s\n", "STALL NO.", "STALL NAME",
 				"CATEGORY");
 		output += retrieveAllStall(stallList);	
-		System.out.println(output);
+		return output;
 	}
 
 	public static String retrieveAllStall(ArrayList<Stall> stallList) {
