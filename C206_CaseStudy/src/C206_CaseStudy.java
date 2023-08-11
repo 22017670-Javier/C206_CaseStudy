@@ -1,3 +1,9 @@
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 
 public class C206_CaseStudy {
@@ -7,7 +13,7 @@ public class C206_CaseStudy {
 		ArrayList<Stall> stallList = new ArrayList<Stall>(); //Stalls
 		ArrayList<Queue> queueList = new ArrayList<Queue>(); //Queues
 		ArrayList<Order> orderList = new ArrayList<Order>(); //Orders
-
+		ArrayList<Menu> menuList = new ArrayList<Menu>(); //Orders
 		stallList.add(new Stall("frozen yogurt", "dessert"));
 
 		int mode = 0; //mode determines what account is being used to access the system
@@ -346,12 +352,96 @@ public class C206_CaseStudy {
 	}
 
 	//================================= Add/View/Delete Menu =================================
-	//add new menu
 
-	//view all menus
+    private ArrayList<Menu> menuList;
+    // Add new menu item
+    public static void addMenuItem(ArrayList<Menu> menuList, Menu menu, MenuItem menuItem) {
+        // Find the menu to which the item should be added
+        for (Menu m : menuList) {
+            if (m.equals(menu)) {
+                m.addMenuItem(menuItem);
+                return;
+            }
+        }
+        // If the menu doesn't exist, create a new one
+        menu.addMenuItem(menuItem);
+        menuList.add(menu);
+    }
 
-	//delete existing menu
+    // View all menus
+    @Before
+    public void setUp() {
+        menuList = new ArrayList<>();
+    }
 
+    @Test
+    public void testAddMenu() {
+        // Create a menu
+        Menu menu = new Menu();
+
+        // Create a menu item
+        MenuItem item = new MenuItem("Burger", 5.99);
+
+        // Add the menu item to the menu
+        C206_CaseStudy.addMenuItem(menuList, menu, item);
+
+        // Ensure the menu item is added to the correct menu
+        assertTrue(menuList.contains(menu));
+
+        // Check if the menu item exists in the menu
+        assertTrue(menu.getMenuItems().contains(item));
+    }
+
+    @Test
+    public void testViewAllMenus() {
+        // Create a menu
+        Menu menu1 = new Menu();
+
+        // Create menu items
+        MenuItem item1 = new MenuItem("Burger", 5.99);
+        MenuItem item2 = new MenuItem("Pizza", 7.49);
+
+        // Add menu items to the menu
+        menu1.addMenuItem(item1);
+        menu1.addMenuItem(item2);
+
+        // Add the menu to the menu list
+        menuList.add(menu1);
+
+        // Test the viewAllMenus method
+        String expectedOutput = "MENU LIST\n" +
+                                "Menu Item              Price     \n" +
+                                "Burger                 $5.99     \n" +
+                                "Pizza                  $7.49     \n";
+        String actualOutput = C206_CaseStudy.viewAllMenus(menuList);
+
+        assertEquals(expectedOutput, actualOutput);
+    }
+
+    @Test
+    public void testDeleteMenu() {
+        // Create a menu
+        Menu menu1 = new Menu();
+
+        // Create menu items
+        MenuItem item1 = new MenuItem("Burger", 5.99);
+        MenuItem item2 = new MenuItem("Pizza", 7.49);
+
+        // Add menu items to the menu
+        menu1.addMenuItem(item1);
+        menu1.addMenuItem(item2);
+
+        // Add the menu to the menu list
+        menuList.add(menu1);
+
+        // Test the deleteMenuItem method
+        C206_CaseStudy.deleteMenuItem(menuList, "Burger");
+
+        // Check if the menu item is deleted
+        assertTrue(menu1.getMenuItems().size() == 1);
+        assertTrue(menu1.getMenuItems().get(0).getItemName().equals("Pizza"));
+    }
+}
 	//================================= Add/View/Delete Order =================================
 	//add new order
 
