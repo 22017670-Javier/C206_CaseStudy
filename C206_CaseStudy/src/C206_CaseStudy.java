@@ -418,7 +418,11 @@ public class C206_CaseStudy {
         assertEquals(expectedOutput, actualOutput);
     }
 
-    @Test
+    private static String viewAllMenus(ArrayList<Menu> menuList2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Test
     public void testDeleteMenu() {
         // Create a menu
         Menu menu1 = new Menu();
@@ -441,7 +445,10 @@ public class C206_CaseStudy {
         assertTrue(menu1.getMenuItems().size() == 1);
         assertTrue(menu1.getMenuItems().get(0).getItemName().equals("Pizza"));
     }
-}
+	private static void deleteMenuItem(ArrayList<Menu> menuList2, String string) {
+		// TODO Auto-generated method stub
+		
+	}
 	//================================= Add/View/Delete Order =================================
 	//add new order
 
