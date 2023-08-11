@@ -14,6 +14,8 @@ public class C206_CaseStudy {
 		ArrayList<Queue> queueList = new ArrayList<Queue>(); //Queues
 		ArrayList<Order> orderList = new ArrayList<Order>(); //Orders
 		ArrayList<Menu> menuList = new ArrayList<Menu>(); //Menu
+		ArrayList<User> userList = new ArrayList<User>(); //User
+
 		stallList.add(new Stall("frozen yogurt", "dessert"));
 
 		int mode = 0; //mode determines what account is being used to access the system
@@ -33,11 +35,28 @@ public class C206_CaseStudy {
 
 					if (option == 1) {
 						//view all users
+						viewAllUser(userList);
 
 					}
 
 					else if (option == 2) {
 						//add or delete user
+						int addOrDelete = Helper.readInt("Do you want to add (1) or delete (2) a user? Enter your choice > ");
+
+						if (addOrDelete == 1) {
+							User u = inputUser();
+							C206_CaseStudy.addUser(userList, u);
+							System.out.println("user added!");
+						} 
+
+						else if (addOrDelete == 2) {
+							String userName = Helper.readString("Enter the user name to delete > ");
+							deleteUser(userList, userName);
+						}
+
+						else {
+							System.out.println("Invalid option!");
+						}
 
 					}
 
@@ -68,11 +87,28 @@ public class C206_CaseStudy {
 
 					else if (option == 5) {
 						//view all menus
+						C206_CaseStudy.viewAllMenu(menuList);
 
 					}
 
 					else if (option == 6) {
 						//add or delete menu
+						int addOrDelete = Helper.readInt("Do you want to add (1) or delete (2) a menu? Enter your choice > ");
+
+						if (addOrDelete == 1) {
+							Menu m = inputMenu();
+							C206_CaseStudy.addMenu(menuList, m);
+							System.out.println("Menu added!");
+						} 
+
+						else if (addOrDelete == 2) {
+							String menuName = Helper.readString("Enter the menu name to delete > ");
+							C206_CaseStudy.deleteItemMenu(menuList, menuName);
+						}
+
+						else {
+							System.out.println("Invalid option!");
+						}
 
 					}
 
@@ -131,6 +167,22 @@ public class C206_CaseStudy {
 
 					if (option == 1) {
 						//add or delete new menu
+						int addOrDelete = Helper.readInt("Do you want to add (1) or delete (2) a menu? Enter your choice > ");
+
+						if (addOrDelete == 1) {
+							Menu m = inputMenu();
+							C206_CaseStudy.addMenu(menuList, m);
+							System.out.println("Menu added!");
+						} 
+
+						else if (addOrDelete == 2) {
+							String menuName = Helper.readString("Enter the menu name to delete > ");
+							C206_CaseStudy.deleteItemMenu(menuList, menuName);
+						}
+
+						else {
+							System.out.println("Invalid option!");
+						}
 
 					}
 
@@ -186,6 +238,7 @@ public class C206_CaseStudy {
 
 					else if (option == 2) {
 						//view all menus
+						C206_CaseStudy.viewAllMenu(menuList);
 
 					}
 
@@ -286,10 +339,60 @@ public class C206_CaseStudy {
 
 	//================================= Add/View/Delete User =================================
 	//add new user
+	public static void addUser(ArrayList<User> userList, User u) {
+		User user;
+		for(int i = 0; i < userList.size(); i++) {
+			user = userList.get(i);
+			if (user.getUserName().equalsIgnoreCase(u.getUserName()) )
+
+				return;
+		}
+
+		userList.add(u);
+	}
 
 	//view all user
+	public static void viewAllUser(ArrayList<User> userList) {
+		C206_CaseStudy.setHeader("USER LIST");
+		String output = String.format("%-10s %-30s %-20s\n", "USER ID", "USERNAME",
+				"ACCT TYPE");
+		output += retrieveAllUser(userList); 
+		System.out.println(output);
+	}
+
+	public static String retrieveAllUser(ArrayList<User> userList) {
+		// write your code here
+		String output = "";
+
+		for (int i = 0; i < userList.size(); i++) {
+			output += String.format("%-10s %-30s %-20s\n", userList.get(i).getUserID(), userList.get(i).getUserName(), userList.get(i).getAcct());
+
+		} 
+		return output;
+	}
+
+	public static User inputUser() {
+
+		String userName = Helper.readString("Enter username > ");
+		int userID = Helper.readInt("Enter your user ID > ");
+		String acct = Helper.readString("Enter account type (System Admin, Stall Staff or User) > ");
+
+		User newUser = new User(userName, userID, acct);
+		return newUser;
+	}
 
 	//delete existing user
+	public static void deleteUser(ArrayList<User> userList, String userName) {
+		for (int i = 0; i < userList.size(); i++) {
+			User user = userList.get(i);
+			if (user.getUserName().equalsIgnoreCase(userName)) {
+				userList.remove(i);
+				System.out.println("User has been deleted.");
+				return;
+			}
+		}
+		System.out.println("User does not exist.");
+	}
 
 
 	//================================= Add/View/Delete Stall =================================
@@ -353,104 +456,66 @@ public class C206_CaseStudy {
 
 	//================================= Add/View/Delete Menu =================================
 
-	private ArrayList<Menu> menuList;
-	// Add new menu item
-	public static void addMenuItem(ArrayList<Menu> menuList, Menu menu, MenuItem menuItem) {
-		// Find the menu to which the item should be added
-		for (Menu m : menuList) {
-			if (m.equals(menu)) {
-				m.addMenuItem(menuItem);
+	//view all Menu
+	public static String viewAllMenu(ArrayList<Menu> menuList) {
+		C206_CaseStudy.setHeader("MENU LIST");
+		String output = String.format("%-10s %-30s %-20s\n", "MENU NO.", "MENU NAME",
+				"CATEGORY");
+		output += retrieveAllMenu(menuList);  
+		return output;
+	}
+
+	public static String retrieveAllMenu(ArrayList<Menu> menuList) {
+		// write your code here
+		String output = "";
+
+		for (int i = 0; i < menuList.size(); i++) {
+			output += String.format("%-10s %-30s %-20s\n", menuList.get(i).getMenuNo(), menuList.get(i).getItemName(),menuList.get(i).getItemPrice());
+
+		} 
+		return output;
+	}
+
+	public static Menu inputMenu() {
+
+		String name = Helper.readString("Enter menu name > ");
+		double price= Helper.readDouble("Enter Item price > ");
+
+		Menu newMenu = new Menu(name, price);
+		return newMenu;
+	}
+
+	//add new dish 
+	public static void addMenu(ArrayList<Menu> menuList, Menu m) {
+		Menu menu;
+		for(int i = 0; i < menuList.size(); i++) {
+			menu= menuList.get(i);
+			if (menu.getItemName().equalsIgnoreCase(m.getItemName()) )
+
+				return;
+		}
+		if ((m.getItemName().isEmpty()) || (m.getItemPrice() == 0) ) {
+			return;
+		}
+
+		menuList.add(m);
+	}
+	//delete existing menu
+	public static void deleteItemMenu(ArrayList<Menu> menuList, String itemName) {
+		for (int i = 0; i < menuList.size(); i++) {
+			Menu menu = menuList.get(i);
+			if (menu.getItemName().equalsIgnoreCase(itemName)) {
+				menuList.remove(i);
+				System.out.println("Stall deleted.");
 				return;
 			}
 		}
-		// If the menu doesn't exist, create a new one
-		menu.addMenuItem(menuItem);
-		menuList.add(menu);
+		System.out.println("Stall not found.");
 	}
 
-	// View all menus
-	@Before
-	public void setUp() {
-		menuList = new ArrayList<>();
-	}
-
-	@Test
-	public void testAddMenu() {
-		// Create a menu
-		Menu menu = new Menu();
-
-		// Create a menu item
-		MenuItem item = new MenuItem("Burger", 5.99);
-
-		// Add the menu item to the menu
-		C206_CaseStudy.addMenuItem(menuList, menu, item);
-
-		// Ensure the menu item is added to the correct menu
-		assertTrue(menuList.contains(menu));
-
-		// Check if the menu item exists in the menu
-		assertTrue(menu.getMenuItems().contains(item));
-	}
-
-	@Test
-	public void testViewAllMenus() {
-		// Create a menu
-		Menu menu1 = new Menu();
-
-		// Create menu items
-		MenuItem item1 = new MenuItem("Burger", 5.99);
-		MenuItem item2 = new MenuItem("Pizza", 7.49);
-
-		// Add menu items to the menu
-		menu1.addMenuItem(item1);
-		menu1.addMenuItem(item2);
-
-		// Add the menu to the menu list
-		menuList.add(menu1);
-
-		// Test the viewAllMenus method
-		String expectedOutput = "MENU LIST\n" +
-				"Menu Item              Price     \n" +
-				"Burger                 $5.99     \n" +
-				"Pizza                  $7.49     \n";
-		String actualOutput = C206_CaseStudy.viewAllMenus(menuList);
-
-		assertEquals(expectedOutput, actualOutput);
-	}
-
-	private static String viewAllMenus(ArrayList<Menu> menuList2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Test
-	public void testDeleteMenu() {
-		// Create a menu
-		Menu menu1 = new Menu();
-
-		// Create menu items
-		MenuItem item1 = new MenuItem("Burger", 5.99);
-		MenuItem item2 = new MenuItem("Pizza", 7.49);
-
-		// Add menu items to the menu
-		menu1.addMenuItem(item1);
-		menu1.addMenuItem(item2);
-
-		// Add the menu to the menu list
-		menuList.add(menu1);
-
-		// Test the deleteMenuItem method
-		C206_CaseStudy.deleteMenuItem(menuList, "Burger");
-
-		// Check if the menu item is deleted
-		assertTrue(menu1.getMenuItems().size() == 1);
-		assertTrue(menu1.getMenuItems().get(0).getItemName().equals("Pizza"));
-	}
-	private static void deleteMenuItem(ArrayList<Menu> menuList2, String string) {
-		// TODO Auto-generated method stub
-
-	}
 	//================================= Add/View/Delete Order =================================
 	//add new order
+
 
 	//view all orders
 

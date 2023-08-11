@@ -1,17 +1,32 @@
-import java.util.ArrayList;
-
 public class Menu {
-    private ArrayList<MenuItem> menuItems;
+    private String itemName;
+    private double itemPrice;
+  private int menuNo;
 
-    public Menu() {
-        this.menuItems = new ArrayList<>();
+    private static int currentMenuNo = 1;
+
+    public Menu(String itemName, double itemPrice) {
+        this.itemName = itemName;
+        this.itemPrice= itemPrice;
     }
 
-    public void addMenuItem(MenuItem item) {
-        menuItems.add(item);
+    public String getItemName() {
+        return itemName;
+    }
+ 
+    public void setItemName(String ItemName) {
+        this.itemName = itemName;
     }
 
-    public ArrayList<MenuItem> getMenuItems() {
-        return menuItems;
+    public double getItemPrice() {
+        return itemPrice;
+    }
+
+    public void setItemPrice(double ItemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    public int getMenuNo() {
+        return menuNo;
     }
 }

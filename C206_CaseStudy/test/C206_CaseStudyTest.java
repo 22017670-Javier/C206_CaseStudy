@@ -61,7 +61,7 @@ public class C206_CaseStudyTest {
 		assertNotNull("Test if there is valid stall arraylist to retrieve item", stallList);
 
 		//test if the list of stall retrieved from the C206_CaseStudy is empty - boundary
-		String allStall = C206_CaseStudy.viewAllStall(stallList);
+		String allStall = C206_CaseStudy.retrieveAllStall(stallList);
 		String testOutput = "";
 		assertEquals("Check that ViewAllStalllist", testOutput, allStall);
 
