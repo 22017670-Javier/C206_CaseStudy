@@ -54,59 +54,105 @@ public class C206_CaseStudyTest {
 		C206_CaseStudy.addStall(stallList, stall_missing);
 		assertEquals("Test that the Stall arraylist size is unchange.", 2, stallList.size());
 	}
+	
+	@Test
 	public void testViewAllStall() {
 		// Test if Item list is not null but empty -boundary
 		assertNotNull("Test if there is valid stall arraylist to retrieve item", stallList);
-		
+
 		//test if the list of stall retrieved from the C206_CaseStudy is empty - boundary
 		String allStall = C206_CaseStudy.viewAllStall(stallList);
 		String testOutput = "";
 		assertEquals("Check that ViewAllStalllist", testOutput, allStall);
-		
+
 		//Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
 		C206_CaseStudy.addStall(stallList, s1);
 		C206_CaseStudy.addStall(stallList, s2);
 		assertEquals("Test that Camcorder arraylist size is 2", 2, stallList.size());
-		
+
 		//test if the expected output string same as the list of stall retrieved from the SourceCentre	
 		allStall= C206_CaseStudy.retrieveAllStall(stallList);
 		testOutput = String.format("%-10s %-30s %-20s\n", 1, "Pi Li Hong", "Chinese lok lok");
 		testOutput = String.format("%-10s %-30s %-20s\n", 2, "7-Eleven", "Snack & Drinks");
-	
+
 		assertEquals("Test that ViewAllStalllist", testOutput, allStall);
-		
+
 	}
-	
-	
+
 	//----------Add, View, Delete Queue----------
-	public void testViewAll() {
-		// Test if Item list is not null but empty -boundary
-		assertNotNull("Test if there is valid queue arraylist to retrieve item", queueList);
-		
-		//test if the list of camcorders retrieved from the SourceCentre is empty - boundary
-		String allCamcorder= C206_CaseStudy.viewAllQueues(stallList, queueList, orderList);
-		String testOutput = "";
-		assertEquals("Check that ViewAllCamcorderlist", testOutput, allCamcorder);
-		
-		//Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
-		ResourceCentre.addCamcorder(camcorderList, cc1);
-		ResourceCentre.addCamcorder(camcorderList, cc2);
-		assertEquals("Test that Camcorder arraylist size is 2", 2, camcorderList.size());
-		
-		//test if the expected output string same as the list of camcorders retrieved from the SourceCentre	
-		allCamcorder= ResourceCentre.retrieveAllCamcorder(camcorderList);
-		testOutput = String.format("%-10s %-30s %-10s %-10s %-20s\n","CC0011", "Nikon HDSLR", "Yes", "", "40");
-		testOutput += String.format("%-10s %-30s %-10s %-10s %-20s\n","CC0012", "Sony DSC-RX100M7", "Yes", "", "20" );
-	
-		assertEquals("Test that ViewAllCamcorderlist", testOutput, allCamcorder);
-		
+	@Test
+	public void testViewAllQueue() {
+
+		assertNotNull("Test if there is a valid queue arraylist to retrieve items", queueList);
+
+		// Given a list of queues
+		queueList.add(new Queue("Stall A", 5, 20));
+		queueList.add(new Queue("Stall B", 3, 12));
+
+		// Expected output
+		String expectedOutput = String.format("%-30s %-15s %-30s\n", "Stall Name", "No. of Orders", "Estimated Waiting Time");
+		expectedOutput += String.format("%-30s %-15d %-30d mins\n", "Stall A", 5, 20);
+		expectedOutput += String.format("%-30s %-15d %-30d mins\n", "Stall B", 3, 12);
+
+		// Call the method to retrieve all queues
+		String allQueues = C206_CaseStudy.retrieveAllQueues(queueList);
+
+		// Check if the expected output matches the actual output
+		assertEquals(expectedOutput, allQueues);
 	}
+
+	@Test
+	public void testAddQueue() {
+		// Ensure that the queueList is not null
+		assertNotNull("Test if there is a valid queue arraylist to add to", queueList);
+
+		// Given a list of stalls, orders, and a queue
+		stallList.add(new Stall("Stall A", "Food"));
+		orderList.add(new Order("Stall A", 5, false)); // Assume orders are initialized with quantities
+
+		// Add a new queue
+		C206_CaseStudy.addQueue(stallList, queueList, orderList);
+
+		// Ensure that the queue was added successfully
+		assertEquals("Test that the queueList size is 1.", 1, queueList.size());
+		assertEquals("Test that the stallName of the added queue is correct.", "Stall A", queueList.get(0).getStallName());
+		assertEquals("Test that the orders of the added queue are correct.", 5, queueList.get(0).getOrders());
+		// Assuming that the estimated wait time is 4 minutes per order
+		assertEquals("Test that the estimated waiting time of the added queue is correct.", 20, queueList.get(0).getEstWait());
+	}
+
+
+	@Test
+	public void testDeleteQueue() {
+	    // Ensure that the queueList is not null
+	    assertNotNull("Test if there is a valid queue arraylist to delete from", queueList);
+
+	    // Given a list of queues
+	    Queue queue1 = new Queue("Stall A", 5, 20);
+	    Queue queue2 = new Queue("Stall B", 3, 12);
+	    queueList.add(queue1);
+	    queueList.add(queue2);
+
+	    // Ensure that the queueList size is 2
+	    assertEquals("Test that the queueList size is 2 before deletion.", 2, queueList.size());
+
+	    // Delete a queue
+	    boolean isDeleted = C206_CaseStudy.deleteQueue(queueList, "Stall A");
+
+	    // Ensure that the queue was deleted successfully
+	    assertTrue("Test that a queue was successfully deleted.", isDeleted);
+	    assertEquals("Test that the queueList size is 1 after deletion.", 1, queueList.size());
+	    assertEquals("Test that the remaining queue's stallName is correct.", "Stall B", queueList.get(0).getStallName());
+	}
+
+
 
 	@After
 	public void tearDown() throws Exception {
 		s1 = null;
 		s2 = null;
 		stallList = null;
+		queueList = null;
 	}
 
 }

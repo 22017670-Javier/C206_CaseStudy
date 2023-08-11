@@ -13,7 +13,7 @@ public class C206_CaseStudy {
 		ArrayList<Stall> stallList = new ArrayList<Stall>(); //Stalls
 		ArrayList<Queue> queueList = new ArrayList<Queue>(); //Queues
 		ArrayList<Order> orderList = new ArrayList<Order>(); //Orders
-		ArrayList<Menu> menuList = new ArrayList<Menu>(); //Orders
+		ArrayList<Menu> menuList = new ArrayList<Menu>(); //Menu
 		stallList.add(new Stall("frozen yogurt", "dessert"));
 
 		int mode = 0; //mode determines what account is being used to access the system
@@ -353,101 +353,101 @@ public class C206_CaseStudy {
 
 	//================================= Add/View/Delete Menu =================================
 
-    private ArrayList<Menu> menuList;
-    // Add new menu item
-    public static void addMenuItem(ArrayList<Menu> menuList, Menu menu, MenuItem menuItem) {
-        // Find the menu to which the item should be added
-        for (Menu m : menuList) {
-            if (m.equals(menu)) {
-                m.addMenuItem(menuItem);
-                return;
-            }
-        }
-        // If the menu doesn't exist, create a new one
-        menu.addMenuItem(menuItem);
-        menuList.add(menu);
-    }
+	private ArrayList<Menu> menuList;
+	// Add new menu item
+	public static void addMenuItem(ArrayList<Menu> menuList, Menu menu, MenuItem menuItem) {
+		// Find the menu to which the item should be added
+		for (Menu m : menuList) {
+			if (m.equals(menu)) {
+				m.addMenuItem(menuItem);
+				return;
+			}
+		}
+		// If the menu doesn't exist, create a new one
+		menu.addMenuItem(menuItem);
+		menuList.add(menu);
+	}
 
-    // View all menus
-    @Before
-    public void setUp() {
-        menuList = new ArrayList<>();
-    }
+	// View all menus
+	@Before
+	public void setUp() {
+		menuList = new ArrayList<>();
+	}
 
-    @Test
-    public void testAddMenu() {
-        // Create a menu
-        Menu menu = new Menu();
+	@Test
+	public void testAddMenu() {
+		// Create a menu
+		Menu menu = new Menu();
 
-        // Create a menu item
-        MenuItem item = new MenuItem("Burger", 5.99);
+		// Create a menu item
+		MenuItem item = new MenuItem("Burger", 5.99);
 
-        // Add the menu item to the menu
-        C206_CaseStudy.addMenuItem(menuList, menu, item);
+		// Add the menu item to the menu
+		C206_CaseStudy.addMenuItem(menuList, menu, item);
 
-        // Ensure the menu item is added to the correct menu
-        assertTrue(menuList.contains(menu));
+		// Ensure the menu item is added to the correct menu
+		assertTrue(menuList.contains(menu));
 
-        // Check if the menu item exists in the menu
-        assertTrue(menu.getMenuItems().contains(item));
-    }
+		// Check if the menu item exists in the menu
+		assertTrue(menu.getMenuItems().contains(item));
+	}
 
-    @Test
-    public void testViewAllMenus() {
-        // Create a menu
-        Menu menu1 = new Menu();
+	@Test
+	public void testViewAllMenus() {
+		// Create a menu
+		Menu menu1 = new Menu();
 
-        // Create menu items
-        MenuItem item1 = new MenuItem("Burger", 5.99);
-        MenuItem item2 = new MenuItem("Pizza", 7.49);
+		// Create menu items
+		MenuItem item1 = new MenuItem("Burger", 5.99);
+		MenuItem item2 = new MenuItem("Pizza", 7.49);
 
-        // Add menu items to the menu
-        menu1.addMenuItem(item1);
-        menu1.addMenuItem(item2);
+		// Add menu items to the menu
+		menu1.addMenuItem(item1);
+		menu1.addMenuItem(item2);
 
-        // Add the menu to the menu list
-        menuList.add(menu1);
+		// Add the menu to the menu list
+		menuList.add(menu1);
 
-        // Test the viewAllMenus method
-        String expectedOutput = "MENU LIST\n" +
-                                "Menu Item              Price     \n" +
-                                "Burger                 $5.99     \n" +
-                                "Pizza                  $7.49     \n";
-        String actualOutput = C206_CaseStudy.viewAllMenus(menuList);
+		// Test the viewAllMenus method
+		String expectedOutput = "MENU LIST\n" +
+				"Menu Item              Price     \n" +
+				"Burger                 $5.99     \n" +
+				"Pizza                  $7.49     \n";
+		String actualOutput = C206_CaseStudy.viewAllMenus(menuList);
 
-        assertEquals(expectedOutput, actualOutput);
-    }
+		assertEquals(expectedOutput, actualOutput);
+	}
 
-    private static String viewAllMenus(ArrayList<Menu> menuList2) {
+	private static String viewAllMenus(ArrayList<Menu> menuList2) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 	@Test
-    public void testDeleteMenu() {
-        // Create a menu
-        Menu menu1 = new Menu();
+	public void testDeleteMenu() {
+		// Create a menu
+		Menu menu1 = new Menu();
 
-        // Create menu items
-        MenuItem item1 = new MenuItem("Burger", 5.99);
-        MenuItem item2 = new MenuItem("Pizza", 7.49);
+		// Create menu items
+		MenuItem item1 = new MenuItem("Burger", 5.99);
+		MenuItem item2 = new MenuItem("Pizza", 7.49);
 
-        // Add menu items to the menu
-        menu1.addMenuItem(item1);
-        menu1.addMenuItem(item2);
+		// Add menu items to the menu
+		menu1.addMenuItem(item1);
+		menu1.addMenuItem(item2);
 
-        // Add the menu to the menu list
-        menuList.add(menu1);
+		// Add the menu to the menu list
+		menuList.add(menu1);
 
-        // Test the deleteMenuItem method
-        C206_CaseStudy.deleteMenuItem(menuList, "Burger");
+		// Test the deleteMenuItem method
+		C206_CaseStudy.deleteMenuItem(menuList, "Burger");
 
-        // Check if the menu item is deleted
-        assertTrue(menu1.getMenuItems().size() == 1);
-        assertTrue(menu1.getMenuItems().get(0).getItemName().equals("Pizza"));
-    }
+		// Check if the menu item is deleted
+		assertTrue(menu1.getMenuItems().size() == 1);
+		assertTrue(menu1.getMenuItems().get(0).getItemName().equals("Pizza"));
+	}
 	private static void deleteMenuItem(ArrayList<Menu> menuList2, String string) {
 		// TODO Auto-generated method stub
-		
+
 	}
 	//================================= Add/View/Delete Order =================================
 	//add new order
@@ -487,40 +487,52 @@ public class C206_CaseStudy {
 		String output = "";
 		output += String.format("%-30s %-15s %-30s\n", "Stall Name", "No. of Orders", "Estimated Waiting Time");
 
+		output += retrieveAllQueues(queueList);
+
+		System.out.println(output);
+	}
+
+	public static String retrieveAllQueues(ArrayList<Queue> queueList) {
+		// write your code here
+		String output = "";
+
 		for (int i = 0; i < queueList.size(); i++) {
 			output += String.format("%-30s %-15d %-30d mins\n", queueList.get(i).getStallName(), queueList.get(i).getOrders(), queueList.get(i).getEstWait());
 
 		} 
-		System.out.println(output);
+		return output;
 	}
 
 	//delete existing queue
 	public static void deleteQueue(ArrayList<Queue> queueList) {
-		String stallName = Helper.readString("Enter stall name for queue to be deleted > ");
 
-		if (queueList.size() >= 1) {
-			for (int i = 0; i < queueList.size(); i++) {
-				if (queueList.get(i).getStallName().equalsIgnoreCase(stallName)) {
+		if (queueList.size() <= 0) {
+			System.out.println("There are no queues available for deletion!");
+		}
 
-					String confirm = Helper.readString("Please enter confirmation for deletion (y/n) > ");
+		else if (queueList.size() > 0) {
+			String stallName = Helper.readString("Enter stall name for queue to be deleted > ");
 
-					if (confirm.equalsIgnoreCase("y")) {
-						queueList.remove(i);
-						System.out.println("Queue has been removed successfully!");
-						return;
+			if (queueList.size() >= 1) {
+				for (int i = 0; i < queueList.size(); i++) {
+					if (queueList.get(i).getStallName().equalsIgnoreCase(stallName)) {
+
+						String confirm = Helper.readString("Please enter confirmation for deletion (y/n) > ");
+
+						if (confirm.equalsIgnoreCase("y")) {
+							queueList.remove(i);
+							System.out.println("Queue has been removed successfully!");
+						}
+						else {
+							System.out.println("Deletion cancelled!");
+
+						}
 					}
-					else {
-						System.out.println("Deletion cancelled!");
-						return;
+					else if (queueList.get(i).getStallName() != stallName) {
+						System.out.println("Queue does not exist!");
 					}
-				}
-				else {
-					System.out.println("Queue does not exist!");
 				}
 			}
-		}
-		else {
-			System.out.println("There are no queues available for deletion!");
 		}
 	}
 }
