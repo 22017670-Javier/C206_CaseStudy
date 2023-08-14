@@ -4,7 +4,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class C206_CaseStudy {
 
@@ -433,7 +435,7 @@ public class C206_CaseStudy {
 		String output = "";
 
 		for (int i = 0; i < stallList.size(); i++) {
-			output += String.format("%-10s %-30s %-20s\n", stallList.get(i).getStallNo(), stallList.get(i).getStallName(), stallList.get(i).getCategory());
+			output += String.format("%-10d %-30s %-20s\n", stallList.get(i).getStallNo(), stallList.get(i).getStallName(), stallList.get(i).getCategory());
 
 		} 
 		return output;
@@ -466,16 +468,18 @@ public class C206_CaseStudy {
 
 	//delete existing stall
 	public static void deleteStall(ArrayList<Stall> stallList, String stallName) {
-		for (int i = 0; i < stallList.size(); i++) {
-			Stall stall = stallList.get(i);
-			if (stall.getStallName().equalsIgnoreCase(stallName)) {
-				stallList.remove(i);
-				System.out.println("Stall deleted.");
-				return;
-			}
-		}
-		System.out.println("Stall not found.");
+	    Iterator<Stall> iterator = stallList.iterator();
+	    while (iterator.hasNext()) {
+	        Stall stall = iterator.next();
+	        if (stall.getStallName().equalsIgnoreCase(stallName)) {
+	            iterator.remove();
+	            System.out.println("Stall deleted.");
+	            return;
+	        }
+	    }
+	    System.out.println("Stall not found.");
 	}
+
 	//update existing stall
 	public static void updateStall(ArrayList<Stall> stallList, int stallNo) {
 		for (int i=0; i<stallList.size(); i++) {
@@ -563,7 +567,7 @@ public class C206_CaseStudy {
 		System.out.println(output);
 	}
 
-	public static String retrieveAllMenu(ArrayList<Menu> menuList, ArayList<MenuItem> itemList) {
+	public static String retrieveAllMenu(ArrayList<Menu> menuList, ArrayList<MenuItem> itemList) {
 		// write your code here
 		String output = "";
 

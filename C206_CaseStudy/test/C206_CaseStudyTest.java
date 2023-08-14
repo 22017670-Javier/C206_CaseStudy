@@ -72,12 +72,27 @@ public class C206_CaseStudyTest {
 
 		//test if the expected output string same as the list of stall retrieved from the SourceCentre	
 		allStall= C206_CaseStudy.retrieveAllStall(stallList);
-		testOutput = String.format("%-10s %-30s %-20s\n", 1, "Pi Li Hong", "Chinese lok lok");
-		testOutput = String.format("%-10s %-30s %-20s\n", 2, "7-Eleven", "Snack & Drinks");
+		testOutput += String.format("%-10d %-30s %-20s\n", 1, "Pi Li Hong", "Chinese lok lok");
+		testOutput += String.format("%-10d %-30s %-20s\n", 2, "7-Eleven", "Snack & Drinks");
 
 		assertEquals("Test that ViewAllStalllist", testOutput, allStall);
-
 	}
+	
+	@Test
+    public void testDeleteStall() {
+        // Create a list of stalls for testing
+        ArrayList<Stall> stallList = new ArrayList<>();
+        stallList.add(new Stall("Subway", "Fast food"));
+        stallList.add(new Stall("KFC", "Fast Food"));
+
+        // Test case: Deleting an existing stall
+        C206_CaseStudy.deleteStall(stallList, "Subway");
+        assertEquals("Expected 1 stall after deletion", 1, stallList.size());
+        
+        // Test case: Deleting a non-existing stall (no change in size)
+        C206_CaseStudy.deleteStall(stallList, "Mcd");
+        assertEquals("Expected 1 stall after attempting to delete a non-existing stall", 1, stallList.size());
+    }
 
 	//----------Add, View, Delete Queue----------
 	@Test
