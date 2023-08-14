@@ -14,9 +14,12 @@ public class C206_CaseStudy {
 		ArrayList<Queue> queueList = new ArrayList<Queue>(); //Queues
 		ArrayList<Order> orderList = new ArrayList<Order>(); //Orders
 		ArrayList<Menu> menuList = new ArrayList<Menu>(); //Menu
+		ArrayList<MenuItem> menuItemList = new ArrayList<MenuItem>(); //MenuItem
 		ArrayList<User> userList = new ArrayList<User>(); //User
 
 		stallList.add(new Stall("frozen yogurt", "dessert"));
+		stallList.add(new Stall("seasons", "dessert"));
+		
 
 		int mode = 0; //mode determines what account is being used to access the system
 
@@ -103,7 +106,7 @@ public class C206_CaseStudy {
 
 						else if (addOrDelete == 2) {
 							String menuName = Helper.readString("Enter the menu name to delete > ");
-							C206_CaseStudy.deleteItemMenu(menuList, menuName);
+							deleteItemMenu(menuList, menuName, menuItemList);
 						}
 
 						else {
@@ -160,7 +163,7 @@ public class C206_CaseStudy {
 			else if (mode == 2) {
 				System.out.println("Logged in as Stall Staff");
 
-				while (option != 5) {
+				while (option != 6) {
 					C206_CaseStudy.stallMenu();
 
 					option = Helper.readInt("Enter an option > ");
@@ -177,7 +180,7 @@ public class C206_CaseStudy {
 
 						else if (addOrDelete == 2) {
 							String menuName = Helper.readString("Enter the menu name to delete > ");
-							C206_CaseStudy.deleteItemMenu(menuList, menuName);
+							deleteItemMenu(menuList, menuName, menuItemList);
 						}
 
 						else {
@@ -212,8 +215,16 @@ public class C206_CaseStudy {
 							System.out.println("Invalid option!");
 						}
 					}
-
 					else if (option == 5) {
+						
+						int updateDetails = Helper.readInt("Please enter the stall number that you want to update > ");
+						for (int i=0; i<stallList.size(); i++) {
+							if(updateDetails == stallList.get(i).getStallNo()) {
+								updateStall(stallList, updateDetails);
+							}
+						}
+					}
+					else if (option == 6) {
 						System.out.println("Logged out!");
 					}
 
@@ -227,7 +238,7 @@ public class C206_CaseStudy {
 			else if (mode == 3) {
 				System.out.println("Logged in as user!");
 
-				while (option != 5) {
+				while (option != 6) {
 					C206_CaseStudy.userMenu();
 					option = Helper.readInt("Enter an option > ");
 
@@ -252,8 +263,12 @@ public class C206_CaseStudy {
 						viewAllQueues(stallList, queueList, orderList);
 
 					}
-
 					else if (option == 5) {
+						//search stall by name, number, or category
+						searchStallOption();
+						searchStall(stallList);
+					}
+					else if (option == 6) {
 						System.out.println("Logged out!");
 					}
 
@@ -312,10 +327,18 @@ public class C206_CaseStudy {
 		System.out.println("2. View all orders");
 		System.out.println("3. Delete existing order");
 		System.out.println("4. Add or Delete queue");
+		System.out.println("5. Update stall details");
 
 		//Exits the system
-		System.out.println("5. Log out");
+		System.out.println("6. Log out");
 		Helper.line(80, "-");
+	}
+	public static void searchStallOption() {
+		C206_CaseStudy.setHeader("Search by ...");
+		
+		System.out.println("1. Search by stall number");
+		System.out.println("2. Search by stall name");
+		System.out.println("3. Search by stall category");
 	}
 
 	public static void userMenu() {
@@ -325,9 +348,9 @@ public class C206_CaseStudy {
 		System.out.println("2. View all menus");
 		System.out.println("3. Add a new order");
 		System.out.println("4. View all queues");
-
+		System.out.println("5. Search stall");
 		//Exits the system
-		System.out.println("5. Quit");
+		System.out.println("6. Quit");
 		Helper.line(80, "-");
 	}
 
@@ -395,7 +418,7 @@ public class C206_CaseStudy {
 	}
 
 
-	//================================= Add/View/Delete Stall =================================
+	//================================= Add/View/Delete/Update/search Stall =================================
 	//view all stalls
 	public static void viewAllStall(ArrayList<Stall> stallList) {
 		C206_CaseStudy.setHeader("STALL LIST");
@@ -453,24 +476,99 @@ public class C206_CaseStudy {
 		}
 		System.out.println("Stall not found.");
 	}
+	//update existing stall
+	public static void updateStall(ArrayList<Stall> stallList, int stallNo) {
+		for (int i=0; i<stallList.size(); i++) {
+			Stall stall = stallList.get(i);
+			if(stall.getStallNo() == stallNo) {
+				int updateOption = Helper.readInt("Update Stall name(1), update stall category(2). Enter your option > ");
+				if (updateOption == 1) {
+					String newName = Helper.readString("Please enter stall name to update > ");
+					if (stallList.get(i).getStallName().equalsIgnoreCase(newName)) {
+						System.out.println("Please enter a different name");
+					}
+					else {
+						System.out.println("You have updated Stall name sucessfully!!");
+						stallList.get(i).setStallName(newName);
+					}
+				}
+				else if (updateOption == 2) {
+					String newCategory = Helper.readString("Please enter your stall category for update > ");
+					if (stallList.get(i).getCategory().equalsIgnoreCase(newCategory)) {
+						System.out.println("Please enter a different category name");
+					}
+					else {
+						System.out.println("You have updated Stall category sucessfully!!");
+						stallList.get(i).setCategory(newCategory);
+					}
+				}
+				else {
+					System.out.println("Invalid option selected !!!");
+				}
+			}
+		}
+	}
+	//search stall
+	public static void searchStall(ArrayList<Stall> stallList) {
+	    int option = Helper.readInt("Enter an option > ");
+	    boolean found = false; // Initialize a flag to track if a match is found
+	    String searchQuery = "";
+	    int stallNo = 0;
+	    if (option == 2 || option == 3) {
+	        searchQuery = Helper.readString("Enter your search query > ");
+	    }
+	    else if (option == 1) {
+	    	stallNo = Helper.readInt("Enter a stall number > ");
+	    }
+	    for (Stall stall : stallList) {
+	    	if (option == 1) {
+	            if (stallNo == stall.getStallNo()) {
+	                printStallDetails(stall);
+	                found = true; // Match found, set the flag
+	                break;
+	            }
+	        } else if (option == 2) {
+	            if (stall.getStallName().toLowerCase().contains(searchQuery.toLowerCase())) {
+	                printStallDetails(stall);
+	                found = true; // Match found, set the flag
+	            }
+	        } else if (option == 3) {
+	            if (stall.getCategory().toLowerCase().contains(searchQuery.toLowerCase())) {
+	                printStallDetails(stall);
+	                found = true; // Match found, set the flag
+	            }
+	        }
+	    }
+	    
+	    if (!found) {
+	        System.out.println("Stall could not be found.");
+	    }
+	}
 
+	public static void printStallDetails(Stall stall) {
+	    String output = String.format("%-10s %-30s %-20s\n", stall.getStallNo(), stall.getStallName(), stall.getCategory());
+	    System.out.println(output);
+	}
+
+			
+			
 	//================================= Add/View/Delete Menu =================================
 
 	//view all Menu
-	public static String viewAllMenu(ArrayList<Menu> menuList) {
+	public static void viewAllMenu(ArrayList<Menu> menuList) {
 		C206_CaseStudy.setHeader("MENU LIST");
 		String output = String.format("%-10s %-30s %-20s\n", "MENU NO.", "MENU NAME",
 				"CATEGORY");
 		output += retrieveAllMenu(menuList);  
-		return output;
+		System.out.println(output);
 	}
 
-	public static String retrieveAllMenu(ArrayList<Menu> menuList) {
+	public static String retrieveAllMenu(ArrayList<Menu> menuList, ArayList<MenuItem> itemList) {
 		// write your code here
 		String output = "";
 
 		for (int i = 0; i < menuList.size(); i++) {
-			output += String.format("%-10s %-30s %-20s\n", menuList.get(i).getMenuNo(), menuList.get(i).getItemName(),menuList.get(i).getItemPrice());
+			output += String.format("%-10s %-30s %-20s\n", menuList.get(i).getMenuNo(), itemList.get(i).getItemName(),menuList.get(i).getItemPrice());
 
 		} 
 		return output;
@@ -501,10 +599,11 @@ public class C206_CaseStudy {
 		menuList.add(m);
 	}
 	//delete existing menu
-	public static void deleteItemMenu(ArrayList<Menu> menuList, String itemName) {
+	public static void deleteItemMenu(ArrayList<Menu> menuList, String itemName, ArrayList<MenuItem> menuItemList) {
 		for (int i = 0; i < menuList.size(); i++) {
 			Menu menu = menuList.get(i);
-			if (menu.getItemName().equalsIgnoreCase(itemName)) {
+			MenuItem item = menuItemList.get(i);
+			if (item.getItemName().equalsIgnoreCase(itemName)) {
 				menuList.remove(i);
 				System.out.println("Stall deleted.");
 				return;
@@ -529,7 +628,7 @@ public class C206_CaseStudy {
 		for (int i = 0; i < stallList.size(); i++) {
 			if (stallList.get(i).getStallName().equalsIgnoreCase(name)) {
 				if (queueList.get(i).getStallName().equalsIgnoreCase(name)) {
-					Queue queue = new Queue(name, orderList.get(i).getOrders(), setEstWait(orderList.get(i).getOrders()));
+					Queue queue = new Queue(name, orderList.get(i).getOrderNo(), setEstWait(orderList.get(i).getOrderNo()));
 					System.out.println("Queue has been added succesfully!");
 				}
 				else {
@@ -546,7 +645,7 @@ public class C206_CaseStudy {
 	//view all queues
 	public static void viewAllQueues (ArrayList<Stall> stallList, ArrayList<Queue> queueList, ArrayList<Order> orderList) {
 		for (int i = 0; i < stallList.size(); i++) {
-			Queue queue = new Queue(stallList.get(i).getStallName(), orderList.get(i).getOrders(), setEstWait(orderList.get(i).getOrders()));
+			Queue queue = new Queue(stallList.get(i).getStallName(), orderList.get(i).getOrderNo(), setEstWait(orderList.get(i).getOrderNo()));
 		}
 
 		String output = "";
