@@ -50,7 +50,7 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that the Stall arraylist size is unchange.", 2, stallList.size());
 
 		// Add an item that has missing detail
-		Stall stall_missing = new Stall("", "Drinks");
+		Stall stall_missing = new Stall("", "Chinese lok lok");
 		C206_CaseStudy.addStall(stallList, stall_missing);
 		assertEquals("Test that the Stall arraylist size is unchange.", 2, stallList.size());
 	}
@@ -71,11 +71,15 @@ public class C206_CaseStudyTest {
 		assertEquals("Test that Camcorder arraylist size is 2", 2, stallList.size());
 
 		//test if the expected output string same as the list of stall retrieved from the SourceCentre	
-		allStall= C206_CaseStudy.retrieveAllStall(stallList);
+		//allStall= C206_CaseStudy.retrieveAllStall(stallList);
 		testOutput += String.format("%-10d %-30s %-20s\n", 1, "Pi Li Hong", "Chinese lok lok");
 		testOutput += String.format("%-10d %-30s %-20s\n", 2, "7-Eleven", "Snack & Drinks");
 
-		assertEquals("Test that ViewAllStalllist", testOutput, allStall);
+		//assertEquals("Test that ViewAllStalllist", testOutput, allStall);
+		
+		String expectedOutput = testOutput; // Assign your formatted testOutput here
+	    String actualOutput = C206_CaseStudy.viewAllStall(stallList);
+	    assertEquals("Test that ViewAllStalllist", expectedOutput, actualOutput);
 	}
 	
 	@Test

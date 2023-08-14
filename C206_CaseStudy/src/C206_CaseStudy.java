@@ -67,7 +67,7 @@ public class C206_CaseStudy {
 
 					else if (option == 3) {
 						//view all stalls
-						C206_CaseStudy.viewAllStall(stallList);
+						System.out.println(C206_CaseStudy.viewAllStall(stallList));
 					}
 
 					else if (option == 4) {
@@ -422,21 +422,20 @@ public class C206_CaseStudy {
 
 	//================================= Add/View/Delete/Update/search Stall =================================
 	//view all stalls
-	public static void viewAllStall(ArrayList<Stall> stallList) {
-		C206_CaseStudy.setHeader("STALL LIST");
-		String output = String.format("%-10s %-30s %-20s\n", "STALL NO.", "STALL NAME",
-				"CATEGORY");
-		output += retrieveAllStall(stallList);	
-		System.out.println(output);
+	public static String viewAllStall(ArrayList<Stall> stallList) {
+	    C206_CaseStudy.setHeader("STALL LIST");
+	    String output = String.format("%-10s %-30s %-20s\n", "STALL NO.", "STALL NAME", "CATEGORY");
+	    output += retrieveAllStall(stallList);
+	    return output; // Return the output string instead of printing it
 	}
+
 
 	public static String retrieveAllStall(ArrayList<Stall> stallList) {
 		// write your code here
 		String output = "";
 
 		for (int i = 0; i < stallList.size(); i++) {
-			output += String.format("%-10d %-30s %-20s\n", stallList.get(i).getStallNo(), stallList.get(i).getStallName(), stallList.get(i).getCategory());
-
+			output += String.format("%-10s %-30s %-20s\n", stallList.get(i).getStallNo(), stallList.get(i).getStallName(), stallList.get(i).getCategory());
 		} 
 		return output;
 	}
