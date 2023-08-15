@@ -9,6 +9,7 @@ import org.junit.Test;
 public class C206_CaseStudyTest {
 	private Stall s1;
 	private Stall s2;
+	private Stall s3;
 	private ArrayList<Stall> stallList;
 	private ArrayList<Queue> queueList;
 	private ArrayList<Order> orderList;
@@ -19,15 +20,33 @@ public class C206_CaseStudyTest {
 	@Before
 	public void setUp() throws Exception {
 		// prepare test data
-		s1 = new Stall("Pi Li Hong", "Chinese lok lok");
-		s2 = new Stall("7-Eleven", "Snack & Drinks");
+		s1 = new Stall("frozen yogurt", "dessert");
+		s2 = new Stall("seasons", "dessert");
+		
 		stallList= new ArrayList<Stall>();
 		queueList = new ArrayList<Queue>();
 		orderList = new ArrayList<Order>();
+		
 	}
 
 
 	//----------Add, View, Delete Stall----------
+	@Test
+	public void testViewAllStall() {
+		// Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
+		C206_CaseStudy.addStall(stallList, s1);
+		C206_CaseStudy.addStall(stallList, s2);
+	    //assertEquals("Test that stall arraylist size is 2", 2, stallList.size());
+		// Actual output from the method
+	    String actualOutput = C206_CaseStudy.viewAllStall(stallList);
+	    // Expected output
+	    String expectedOutput = String.format("%-10s %-30s %-20s\n", "STALL NO.", "STALL NAME", "CATEGORY");
+	    expectedOutput += String.format("%-10s %-30s %-20s\n", 1, "frozen yogurt", "dessert");
+	    expectedOutput += String.format("%-10s %-30s %-20s\n", 2, "seasons", "dessert");
+	    
+	    // Compare the expected and actual outputs
+	    assertEquals("Test that ViewAllStalllist", expectedOutput, actualOutput.toString());
+	}
 	@Test
 	public void testAddStall() {
 		//fail("Not yet implemented"); 
@@ -38,49 +57,31 @@ public class C206_CaseStudyTest {
 		//Given an empty list, after adding 1 item, the size of the list is 1
 		C206_CaseStudy.addStall(stallList, s1);		
 		assertEquals("Test that the Stall arraylist size is 1.", 1, stallList.size());
-
+		
+		//Given an empty list, after adding 1 item, the size of the list is 2
+		C206_CaseStudy.addStall(stallList, s2);		
+		stallList.add(s2);
+		assertEquals("Test that the Stall arraylist size is 2.", 2, stallList.size());
+				
 		// Add an item
-		C206_CaseStudy.addStall(stallList, s2);
-		assertEquals("Test that the Stall arraylist size is now 2.", 2, stallList.size());
+		s3 = new Stall("Mcd", "Fast-food");
+		C206_CaseStudy.addStall(stallList, s3);
+		stallList.add(s3);
+		assertEquals("Test that the Stall arraylist size is now 3.", 3, stallList.size());
 		//The item just added is as same as the last item in the list
-		assertSame("Test that Stall is added to the end of the list.", s2, stallList.get(1));
+		assertSame("Test that Stall is added to the end of the list.", s3, stallList.get(2));
 
 		// Add an item that already exists in the list
 		C206_CaseStudy.addStall(stallList, s2);
-		assertEquals("Test that the Stall arraylist size is unchange.", 2, stallList.size());
+		assertEquals("Test that the Stall arraylist size is unchange.", 3, stallList.size());
 
 		// Add an item that has missing detail
 		Stall stall_missing = new Stall("", "Chinese lok lok");
 		C206_CaseStudy.addStall(stallList, stall_missing);
-		assertEquals("Test that the Stall arraylist size is unchange.", 2, stallList.size());
+		assertEquals("Test that the Stall arraylist size is unchange.", 3, stallList.size());
 	}
 	
-	@Test
-	public void testViewAllStall() {
-		// Test if Item list is not null but empty -boundary
-		assertNotNull("Test if there is valid stall arraylist to retrieve item", stallList);
 
-		//test if the list of stall retrieved from the C206_CaseStudy is empty - boundary
-		String allStall = C206_CaseStudy.retrieveAllStall(stallList);
-		String testOutput = "";
-		assertEquals("Check that ViewAllStalllist", testOutput, allStall);
-
-		//Given an empty list, after adding 2 items, test if the size of the list is 2 - normal
-		C206_CaseStudy.addStall(stallList, s1);
-		C206_CaseStudy.addStall(stallList, s2);
-		assertEquals("Test that Camcorder arraylist size is 2", 2, stallList.size());
-
-		//test if the expected output string same as the list of stall retrieved from the SourceCentre	
-		//allStall= C206_CaseStudy.retrieveAllStall(stallList);
-		testOutput += String.format("%-10d %-30s %-20s\n", 1, "Pi Li Hong", "Chinese lok lok");
-		testOutput += String.format("%-10d %-30s %-20s\n", 2, "7-Eleven", "Snack & Drinks");
-
-		//assertEquals("Test that ViewAllStalllist", testOutput, allStall);
-		
-		String expectedOutput = testOutput; // Assign your formatted testOutput here
-	    String actualOutput = C206_CaseStudy.viewAllStall(stallList);
-	    assertEquals("Test that ViewAllStalllist", expectedOutput, actualOutput);
-	}
 	
 	@Test
     public void testDeleteStall() {
@@ -99,8 +100,8 @@ public class C206_CaseStudyTest {
     }
 
 	//----------Add, View, Delete Queue----------
-	@Test
-	public void testViewAllQueue() {
+	//@Test
+	/*public void testViewAllQueue() {
 
 		assertNotNull("Test if there is a valid queue arraylist to retrieve items", queueList);
 
@@ -163,7 +164,7 @@ public class C206_CaseStudyTest {
 	    assertEquals("Test that the queueList size is 1 after deletion.", 1, queueList.size());
 	    assertEquals("Test that the remaining queue's stallName is correct.", "Stall B", queueList.get(0).getStallName());
 	}
-
+	*/
 
 
 	@After

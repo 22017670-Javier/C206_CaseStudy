@@ -92,7 +92,7 @@ public class C206_CaseStudy {
 
 					else if (option == 5) {
 						//view all menus
-						C206_CaseStudy.viewAllMenu(menuList);
+						C206_CaseStudy.viewAllMenu(menuList, menuItemList);
 
 					}
 
@@ -251,7 +251,7 @@ public class C206_CaseStudy {
 
 					else if (option == 2) {
 						//view all menus
-						C206_CaseStudy.viewAllMenu(menuList);
+						C206_CaseStudy.viewAllMenu(menuList, menuItemList);
 
 					}
 
@@ -451,10 +451,10 @@ public class C206_CaseStudy {
 
 	//add new stall 
 	public static void addStall(ArrayList<Stall> stallList, Stall s) {
-		Stall stall;
+		//Stall stall;
 		for(int i = 0; i < stallList.size(); i++) {
-			stall = stallList.get(i);
-			if (stall.getStallName().equalsIgnoreCase(s.getStallName()) )
+			s = stallList.get(i);
+			if (s.getStallName().equalsIgnoreCase(s.getStallName()) )
 
 				return;
 		}
@@ -547,7 +547,11 @@ public class C206_CaseStudy {
 	        System.out.println("Stall could not be found.");
 	    }
 	}
-
+	//Stall owners can offer special promotions or discounts on specific food items or combos through the system, attracting customers and boosting sales. 
+	public static void discountStall(ArrayList<Stall> stallList) {
+		
+	}
+	
 	public static void printStallDetails(Stall stall) {
 	    String output = String.format("%-10s %-30s %-20s\n", stall.getStallNo(), stall.getStallName(), stall.getCategory());
 	    System.out.println(output);
@@ -558,11 +562,11 @@ public class C206_CaseStudy {
 	//================================= Add/View/Delete Menu =================================
 
 	//view all Menu
-	public static void viewAllMenu(ArrayList<Menu> menuList) {
+	public static void viewAllMenu(ArrayList<Menu> menuList, ArrayList<MenuItem> menuItemList) {
 		C206_CaseStudy.setHeader("MENU LIST");
 		String output = String.format("%-10s %-30s %-20s\n", "MENU NO.", "MENU NAME",
 				"CATEGORY");
-		output += retrieveAllMenu(menuList);  
+		output += retrieveAllMenu(menuList, menuItemList);  
 		System.out.println(output);
 	}
 

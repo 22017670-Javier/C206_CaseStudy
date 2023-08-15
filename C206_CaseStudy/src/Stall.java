@@ -7,8 +7,8 @@ public class Stall {
     private static int currentStallNo = 1;
 
     public Stall(String stallName, String category) {
+    	this.stallNo = currentStallNo++;
         this.stallName = stallName;
-        this.stallNo = currentStallNo++;
         this.category = category;
     }
 

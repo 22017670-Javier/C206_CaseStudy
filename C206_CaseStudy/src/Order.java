@@ -21,6 +21,38 @@ public class Order {
 		this.orderPrice = orderPrice;
 		this.isCollected = isCollected;
 	}
+
+	public String getOrderDescription() {
+		return orderDescription;
+	}
+
+	public void setOrderDescription(String orderDescription) {
+		this.orderDescription = orderDescription;
+	}
+
+	public boolean isCollected() {
+		return isCollected;
+	}
+
+	public void setCollected(boolean isCollected) {
+		this.isCollected = isCollected;
+	}
+
+	public static int getCurrentNo() {
+		return currentNo;
+	}
+
+	public static void setCurrentNo(int currentNo) {
+		Order.currentNo = currentNo;
+	}
+
+	public int getOrderNo() {
+		return orderNo;
+	}
+
+	public double getOrderPrice() {
+		return orderPrice;
+	}
 	
 
 }
