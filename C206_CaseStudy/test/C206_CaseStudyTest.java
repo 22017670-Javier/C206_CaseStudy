@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
 
 public class C206_CaseStudyTest {
 	private Stall s1;
@@ -29,6 +31,46 @@ public class C206_CaseStudyTest {
 		
 	}
 
+    //----------Add, View, Delete User-----------
+	public class UserTest {
+
+	    @Test
+	    public void testAddUser() {
+	        ArrayList<User> userList = new ArrayList<>();
+	        User u1 = new User("Alice", 1, "User");
+
+	        // Adding a new user
+	        User.addUser(userList, u1);
+	        // Add assertions to check if the user was added correctly
+	    }
+
+	    @Test
+	    public void testViewAllUser() {
+	        ArrayList<User> userList = new ArrayList<>();
+	        User u1 = new User("Alice", 1, "User");
+	        User u2 = new User("Bob", 2, "Stall Staff");
+	        userList.add(u1);
+	        userList.add(u2);
+
+	        // Testing viewAllUser
+	        User.viewAllUser(userList);
+	        // Add assertions to check the output or verify expected behavior
+	    }
+
+	    @Test
+	    public void testDeleteUser() {
+	        ArrayList<User> userList = new ArrayList<>();
+	        User u1 = new User("Alice", 1, "User");
+	        User u2 = new User("Bob", 2, "Stall Staff");
+	        userList.add(u1);
+	        userList.add(u2);
+
+	        // Deleting an existing user
+	        User.deleteUser(userList, "Alice");
+	        // Add assertions to check if the user was deleted correctly
+	    }
+	}
+	
 
 	//----------Add, View, Delete Stall----------
 	@Test
