@@ -146,8 +146,6 @@ public class C206_CaseStudyTest {
 	        System.out.println((i + 1) + "\t" + stall.getStallName() + "\t" + stall.getCategory());
 	    }
 
-	    // You can also return the stallList if needed
-	    // return stallList;
 	}
 	
 	//----------Add, View, Delete Queue----------
