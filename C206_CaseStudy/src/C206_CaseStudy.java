@@ -113,9 +113,8 @@ public class C206_CaseStudy {
 
 						else {
 							System.out.println("Invalid option!");
-						}
+						}}
 
-					}
 
 					else if (option == 7) {
 						//view all orders
@@ -561,63 +560,76 @@ public class C206_CaseStudy {
 			
 	//================================= Add/View/Delete Menu =================================
 
-	//view all Menu
-	public static void viewAllMenu(ArrayList<Menu> menuList, ArrayList<MenuItem> menuItemList) {
-		C206_CaseStudy.setHeader("MENU LIST");
-		String output = String.format("%-10s %-30s %-20s\n", "MENU NO.", "MENU NAME",
-				"CATEGORY");
-		output += retrieveAllMenu(menuList, menuItemList);  
-		System.out.println(output);
-	}
-
-	public static String retrieveAllMenu(ArrayList<Menu> menuList, ArrayList<MenuItem> itemList) {
-		// write your code here
-		String output = "";
-
-		for (int i = 0; i < menuList.size(); i++) {
-			output += String.format("%-10s %-30s %-20s\n", menuList.get(i).getMenuNo(), itemList.get(i).getItemName(),menuList.get(i).getItemPrice());
-
-		} 
-		return output;
-	}
-
-	public static Menu inputMenu() {
-
-		String name = Helper.readString("Enter menu name > ");
-		double price= Helper.readDouble("Enter Item price > ");
-
-		Menu newMenu = new Menu(name, price);
-		return newMenu;
-	}
-
-	//add new dish 
-	public static void addMenu(ArrayList<Menu> menuList, Menu m) {
-		Menu menu;
-		for(int i = 0; i < menuList.size(); i++) {
-			menu= menuList.get(i);
-			if (menu.getItemName().equalsIgnoreCase(m.getItemName()) )
-
-				return;
-		}
-		if ((m.getItemName().isEmpty()) || (m.getItemPrice() == 0) ) {
-			return;
+		//view all menus
+		public static void viewAllMenu(ArrayList<Menu> menuList, ArrayList<MenuItem> menuItemList) {
+		    C206_CaseStudy.setHeader("MENU LIST");
+		    String output = retrieveAllMenus(menuList, menuItemList);
+		    System.out.println(output);
 		}
 
-		menuList.add(m);
-	}
-	//delete existing menu
-	public static void deleteItemMenu(ArrayList<Menu> menuList, String itemName, ArrayList<MenuItem> menuItemList) {
-		for (int i = 0; i < menuList.size(); i++) {
-			Menu menu = menuList.get(i);
-			MenuItem item = menuItemList.get(i);
-			if (item.getItemName().equalsIgnoreCase(itemName)) {
-				menuList.remove(i);
-				System.out.println("Stall deleted.");
-				return;
-			}
+		public static String retrieveAllMenus(ArrayList<Menu> menuList, ArrayList<MenuItem> menuItemList) {
+		    String output = "";
+
+		    for (int i = 0; i < menuList.size(); i++) {
+		        Menu menu = menuList.get(i);
+		        output += String.format("Menu Name: %s\n", menu.getMenuName());
+		        output += "Items:\n";
+		        ArrayList<String> itemNames = menu.getItemNames();
+		        for (String itemName : itemNames) {
+		            output += String.format("- %s\n", itemName);
+		        }
+		        output += "\n";
+		    }
+		    return output;
 		}
-		System.out.println("Stall not found.");
-	}
+
+		public static Menu inputMenu() {
+		    String menuName = Helper.readString("Enter menu name > ");
+		    ArrayList<String> itemNames = new ArrayList<>();
+
+		    int numItems = Helper.readInt("Enter number of items in the menu > ");
+		    for (int i = 1; i <= numItems; i++) {
+		        String itemName = Helper.readString(String.format("Enter name of item %d > ", i));
+		        itemNames.add(itemName);
+		    }
+
+		    Menu newMenu = new Menu(menuName, itemNames);
+		    return newMenu;
+		}
+
+		//add new menu
+		public static void addMenu(ArrayList<Menu> menuList, Menu m) {
+		    menuList.add(m);
+		    System.out.println("Menu added!");
+		}
+
+		//delete existing menu
+		public static void deleteItemMenu(ArrayList<Menu> menuList, String menuName, ArrayList<MenuItem> menuItemList) {
+		    Iterator<Menu> iterator = menuList.iterator();
+		    while (iterator.hasNext()) {
+		        Menu menu = iterator.next();
+		        if (menu.getMenuName().equalsIgnoreCase(menuName)) {
+		            iterator.remove();
+		            System.out.println("Menu deleted.");
+		            // Also delete the associated menu items
+		            deleteMenuItems(menuItemList, menuName); // Corrected parameter name
+		            return;
+		        }
+		    }
+		    System.out.println("Menu not found.");
+		}
+
+		//delete associated menu items
+		public static void deleteMenuItems(ArrayList<MenuItem> menuItemList, String menuNameToDelete) {
+		    Iterator<MenuItem> iterator = menuItemList.iterator();
+		    while (iterator.hasNext()) {
+		        MenuItem menuItem = iterator.next();
+		        if (menuItem.getMenuName().equalsIgnoreCase(menuNameToDelete)) {
+		            iterator.remove();
+		        }
+		    }
+		}
+
 
 	//================================= Add/View/Delete Order =================================
 	//add new order

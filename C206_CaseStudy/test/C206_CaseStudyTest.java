@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.Before;
@@ -148,6 +149,61 @@ public class C206_CaseStudyTest {
 
 	}
 	
+	//----------Add, View, Delete Menu----------
+	
+    private ArrayList<Menu> menuList;
+    private ArrayList<MenuItem> menuItemList;
+
+    @Before
+    public void setUp1() {
+        menuList = new ArrayList<>();
+        menuItemList = new ArrayList<>();
+    }
+
+    @Test
+    public void testViewAllMenu() {
+        Menu menu1 = new Menu("Menu 1", new ArrayList<>(Arrays.asList("Item A", "Item B")));
+        menuList.add(menu1);
+
+        String expectedOutput = "Menu Name: Menu 1\nItems:\n- Item A\n- Item B\n\n";
+        assertEquals(expectedOutput, C206_CaseStudy.retrieveAllMenus(menuList, menuItemList));
+    }
+
+    @Test
+    public void testAddMenu() {
+        Menu newMenu = new Menu("New Menu", new ArrayList<>(Arrays.asList("Item X", "Item Y")));
+        C206_CaseStudy.addMenu(menuList, newMenu);
+
+        assertEquals(1, menuList.size());
+        assertEquals("New Menu", menuList.get(0).getMenuName());
+        assertEquals("Item X", menuList.get(0).getItemNames().get(0));
+        assertEquals("Item Y", menuList.get(0).getItemNames().get(1));
+    }
+    
+    //Delete Menus
+    
+    @Test
+    public void testDeleteItemMenu() {
+        Menu menuToDelete = new Menu("Menu to Delete", new ArrayList<>(Arrays.asList("Item C", "Item D")));
+        menuList.add(menuToDelete);
+        menuItemList.add(new MenuItem("Menu to Delete", "Item C"));
+        menuItemList.add(new MenuItem("Menu to Delete", "Item D"));
+
+        C206_CaseStudy.deleteItemMenu(menuList, "Menu to Delete", menuItemList);
+
+        assertEquals(0, menuList.size());
+        assertEquals(0, menuItemList.size());
+    }
+
+    @Test
+    public void testDeleteMenuItems() {
+        menuItemList.add(new MenuItem("Menu 1", "Item A"));
+        menuItemList.add(new MenuItem("Menu 1", "Item B"));
+
+        C206_CaseStudy.deleteMenuItems(menuItemList, "Menu 1");
+
+        assertEquals(0, menuItemList.size());}
+
 	//----------Add, View, Delete Queue----------
 	//@Test
 	/*public void testViewAllQueue() {

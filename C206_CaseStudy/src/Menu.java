@@ -1,32 +1,27 @@
+import java.util.ArrayList;
+
 public class Menu {
-    private String itemName;
-    private double itemPrice;
-  private int menuNo;
+    private String menuName;
+    private ArrayList<String> itemNames;
 
-    private static int currentMenuNo = 1;
-
-    public Menu(String itemName, double itemPrice) {
-        this.itemName = itemName;
-        this.itemPrice= itemPrice;
+    public Menu(String menuName, ArrayList<String> itemNames) {
+        this.menuName = menuName;
+        this.itemNames = itemNames;
     }
 
-    public String getItemName() {
-        return itemName;
-    }
- 
-    public void setItemName(String ItemName) {
-        this.itemName = itemName;
+    public String getMenuName() {
+        return menuName;
     }
 
-    public double getItemPrice() {
-        return itemPrice;
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
     }
 
-    public void setItemPrice(double ItemPrice) {
-        this.itemPrice = itemPrice;
+    public ArrayList<String> getItemNames() {
+        return itemNames;
     }
 
-    public int getMenuNo() {
-        return menuNo;
+    public void setItemNames(ArrayList<String> itemNames) {
+        this.itemNames = itemNames;
     }
 }

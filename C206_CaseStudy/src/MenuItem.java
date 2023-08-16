@@ -1,11 +1,18 @@
-
 public class MenuItem {
-	private String itemName;
-    private double itemPrice;
+    private String menuName;
+    private String itemName;
 
-    public MenuItem(String itemName, double itemPrice) {
+    public MenuItem(String menuName, String itemName) {
+        this.menuName = menuName;
         this.itemName = itemName;
-        this.itemPrice = itemPrice;
+    }
+
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
     }
 
     public String getItemName() {
@@ -15,13 +22,4 @@ public class MenuItem {
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
-
-    public double getItemPrice() {
-        return itemPrice;
-    }
-
-    public void setItemPrice(double itemPrice) {
-        this.itemPrice = itemPrice;
-    }
-
 }
