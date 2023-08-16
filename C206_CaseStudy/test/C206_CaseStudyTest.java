@@ -39,6 +39,7 @@ public class C206_CaseStudyTest {
 	    assertTrue(stallList.contains(s1));
 	    assertFalse(stallList.isEmpty());
 	}
+	
 	@Test
 	public void testAddStall() {
 		//fail("Not yet implemented"); 
