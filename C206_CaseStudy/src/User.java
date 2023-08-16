@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class User {
 
 	private String userName;
@@ -28,6 +30,18 @@ public class User {
 
 	public int getUserID() {
 		return userID;
+	}
+
+	public static void addUser(ArrayList<User> userList, User u1) {
+		
+	}
+
+	public static void viewAllUser(ArrayList<User> userList) {
+		
+	}
+
+	public static void deleteUser(ArrayList<User> userList, String string) {
+		
 	}
 
 
