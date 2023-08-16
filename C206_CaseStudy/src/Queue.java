@@ -34,12 +34,5 @@ public class Queue {
 	public int getEstWait() {
 		return estWait;
 	}
-
-	public void setEstWait(int orders) {
-		int time = orders * 4;
-		this.estWait = time;
-	}
-
-
 }
 

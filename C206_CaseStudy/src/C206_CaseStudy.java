@@ -19,9 +19,9 @@ public class C206_CaseStudy {
 		ArrayList<MenuItem> menuItemList = new ArrayList<MenuItem>(); //MenuItem
 		ArrayList<User> userList = new ArrayList<User>(); //User
 
-		stallList.add(new Stall("frozen yogurt", "dessert"));
-		stallList.add(new Stall("seasons", "dessert"));
-		
+		stallList.add(new Stall("Frozen Yogurt", "dessert"));
+		stallList.add(new Stall("Seasons", "dessert"));
+		orderList.add(new Order("Frozen Yogurt", "strawberry yogurt", 1, false));
 
 		int mode = 0; //mode determines what account is being used to access the system
 
@@ -118,11 +118,25 @@ public class C206_CaseStudy {
 
 					else if (option == 7) {
 						//view all orders
+						viewAllOrders(orderList);
 
 					}
 
 					else if (option == 8) {
 						//add or delete order
+						int addOrDelete = Helper.readInt("Do you want to add (1) or delete (2) order? Enter your choice > ");
+
+						if (addOrDelete == 1) {
+							addOrder(orderList, null, null, option, false);
+						} 
+
+						else if (addOrDelete == 2) {
+							deleteOrder(orderList, 0);
+						}
+
+						else {
+							System.out.println("Invalid option!");
+						}
 
 					}
 
@@ -141,7 +155,8 @@ public class C206_CaseStudy {
 						} 
 
 						else if (addOrDelete == 2) {
-							deleteQueue(queueList);
+							String stallName ="";
+							deleteQueue(queueList, stallName);
 						}
 
 						else {
@@ -192,11 +207,13 @@ public class C206_CaseStudy {
 
 					else if (option == 2) {
 						//view all orders
+						viewAllOrders(orderList);
 
 					}
 
 					else if (option == 3) {
 						//delete existing order
+						deleteOrder(orderList, 0);
 
 					}
 
@@ -209,7 +226,8 @@ public class C206_CaseStudy {
 						} 
 
 						else if (addOrDelete == 2) {
-							deleteQueue(queueList);
+							String stallName = "";
+							deleteQueue(queueList, stallName);
 						}
 
 						else {
@@ -217,7 +235,7 @@ public class C206_CaseStudy {
 						}
 					}
 					else if (option == 5) {
-						
+
 						int updateDetails = Helper.readInt("Please enter the stall number that you want to update > ");
 						for (int i=0; i<stallList.size(); i++) {
 							if(updateDetails == stallList.get(i).getStallNo()) {
@@ -256,6 +274,7 @@ public class C206_CaseStudy {
 
 					else if (option == 3) {
 						//add a order
+						addOrder( orderList, null, null, option, false);
 
 					}
 
@@ -276,7 +295,6 @@ public class C206_CaseStudy {
 					else {
 						System.out.println("Invalid option!");
 					}
-
 				}
 			}
 
@@ -336,7 +354,7 @@ public class C206_CaseStudy {
 	}
 	public static void searchStallOption() {
 		C206_CaseStudy.setHeader("Search by ...");
-		
+
 		System.out.println("1. Search by stall number");
 		System.out.println("2. Search by stall name");
 		System.out.println("3. Search by stall category");
@@ -422,10 +440,10 @@ public class C206_CaseStudy {
 	//================================= Add/View/Delete/Update/search Stall =================================
 	//view all stalls
 	public static String viewAllStall(ArrayList<Stall> stallList) {
-	    C206_CaseStudy.setHeader("STALL LIST");
-	    String output = String.format("%-10s %-30s %-20s\n", "STALL NO.", "STALL NAME", "CATEGORY");
-	    output += retrieveAllStall(stallList);
-	    return output; // Return the output string instead of printing it
+		C206_CaseStudy.setHeader("STALL LIST");
+		String output = String.format("%-10s %-30s %-20s\n", "STALL NO.", "STALL NAME", "CATEGORY");
+		output += retrieveAllStall(stallList);
+		return output; // Return the output string instead of printing it
 	}
 
 
@@ -466,16 +484,16 @@ public class C206_CaseStudy {
 
 	//delete existing stall
 	public static void deleteStall(ArrayList<Stall> stallList, String stallName) {
-	    Iterator<Stall> iterator = stallList.iterator();
-	    while (iterator.hasNext()) {
-	        Stall stall = iterator.next();
-	        if (stall.getStallName().equalsIgnoreCase(stallName)) {
-	            iterator.remove();
-	            System.out.println("Stall deleted.");
-	            return;
-	        }
-	    }
-	    System.out.println("Stall not found.");
+		Iterator<Stall> iterator = stallList.iterator();
+		while (iterator.hasNext()) {
+			Stall stall = iterator.next();
+			if (stall.getStallName().equalsIgnoreCase(stallName)) {
+				iterator.remove();
+				System.out.println("Stall deleted.");
+				return;
+			}
+		}
+		System.out.println("Stall not found.");
 	}
 
 	//update existing stall
@@ -512,160 +530,194 @@ public class C206_CaseStudy {
 	}
 	//search stall
 	public static void searchStall(ArrayList<Stall> stallList) {
-	    int option = Helper.readInt("Enter an option > ");
-	    boolean found = false; // Initialize a flag to track if a match is found
-	    String searchQuery = "";
-	    int stallNo = 0;
-	    if (option == 2 || option == 3) {
-	        searchQuery = Helper.readString("Enter your search query > ");
-	    }
-	    else if (option == 1) {
-	    	stallNo = Helper.readInt("Enter a stall number > ");
-	    }
-	    for (Stall stall : stallList) {
-	    	if (option == 1) {
-	            if (stallNo == stall.getStallNo()) {
-	                printStallDetails(stall);
-	                found = true; // Match found, set the flag
-	                break;
-	            }
-	        } else if (option == 2) {
-	            if (stall.getStallName().toLowerCase().contains(searchQuery.toLowerCase())) {
-	                printStallDetails(stall);
-	                found = true; // Match found, set the flag
-	            }
-	        } else if (option == 3) {
-	            if (stall.getCategory().toLowerCase().contains(searchQuery.toLowerCase())) {
-	                printStallDetails(stall);
-	                found = true; // Match found, set the flag
-	            }
-	        }
-	    }
-	    
-	    if (!found) {
-	        System.out.println("Stall could not be found.");
-	    }
+		int option = Helper.readInt("Enter an option > ");
+		boolean found = false; // Initialize a flag to track if a match is found
+		String searchQuery = "";
+		int stallNo = 0;
+		if (option == 2 || option == 3) {
+			searchQuery = Helper.readString("Enter your search query > ");
+		}
+		else if (option == 1) {
+			stallNo = Helper.readInt("Enter a stall number > ");
+		}
+		for (Stall stall : stallList) {
+			if (option == 1) {
+				if (stallNo == stall.getStallNo()) {
+					printStallDetails(stall);
+					found = true; // Match found, set the flag
+					break;
+				}
+			} else if (option == 2) {
+				if (stall.getStallName().toLowerCase().contains(searchQuery.toLowerCase())) {
+					printStallDetails(stall);
+					found = true; // Match found, set the flag
+				}
+			} else if (option == 3) {
+				if (stall.getCategory().toLowerCase().contains(searchQuery.toLowerCase())) {
+					printStallDetails(stall);
+					found = true; // Match found, set the flag
+				}
+			}
+		}
+
+		if (!found) {
+			System.out.println("Stall could not be found.");
+		}
 	}
 	//Stall owners can offer special promotions or discounts on specific food items or combos through the system, attracting customers and boosting sales. 
 	public static void discountStall(ArrayList<Stall> stallList) {
-		
-	}
-	
-	public static void printStallDetails(Stall stall) {
-	    String output = String.format("%-10s %-30s %-20s\n", stall.getStallNo(), stall.getStallName(), stall.getCategory());
-	    System.out.println(output);
+
 	}
 
-			
-			
+	public static void printStallDetails(Stall stall) {
+		String output = String.format("%-10s %-30s %-20s\n", stall.getStallNo(), stall.getStallName(), stall.getCategory());
+		System.out.println(output);
+	}
+
+
+
 	//================================= Add/View/Delete Menu =================================
 
-		//view all menus
-		public static void viewAllMenu(ArrayList<Menu> menuList, ArrayList<MenuItem> menuItemList) {
-		    C206_CaseStudy.setHeader("MENU LIST");
-		    String output = retrieveAllMenus(menuList, menuItemList);
-		    System.out.println(output);
+	//view all menus
+	public static void viewAllMenu(ArrayList<Menu> menuList, ArrayList<MenuItem> menuItemList) {
+		C206_CaseStudy.setHeader("MENU LIST");
+		String output = retrieveAllMenus(menuList, menuItemList);
+		System.out.println(output);
+	}
+
+	public static String retrieveAllMenus(ArrayList<Menu> menuList, ArrayList<MenuItem> menuItemList) {
+		String output = "";
+
+		for (int i = 0; i < menuList.size(); i++) {
+			Menu menu = menuList.get(i);
+			output += String.format("Menu Name: %s\n", menu.getMenuName());
+			output += "Items:\n";
+			ArrayList<String> itemNames = menu.getItemNames();
+			for (String itemName : itemNames) {
+				output += String.format("- %s\n", itemName);
+			}
+			output += "\n";
+		}
+		return output;
+	}
+
+	public static Menu inputMenu() {
+		String menuName = Helper.readString("Enter menu name > ");
+		ArrayList<String> itemNames = new ArrayList<>();
+
+		int numItems = Helper.readInt("Enter number of items in the menu > ");
+		for (int i = 1; i <= numItems; i++) {
+			String itemName = Helper.readString(String.format("Enter name of item %d > ", i));
+			itemNames.add(itemName);
 		}
 
-		public static String retrieveAllMenus(ArrayList<Menu> menuList, ArrayList<MenuItem> menuItemList) {
-		    String output = "";
+		Menu newMenu = new Menu(menuName, itemNames);
+		return newMenu;
+	}
 
-		    for (int i = 0; i < menuList.size(); i++) {
-		        Menu menu = menuList.get(i);
-		        output += String.format("Menu Name: %s\n", menu.getMenuName());
-		        output += "Items:\n";
-		        ArrayList<String> itemNames = menu.getItemNames();
-		        for (String itemName : itemNames) {
-		            output += String.format("- %s\n", itemName);
-		        }
-		        output += "\n";
-		    }
-		    return output;
+	//add new menu
+	public static void addMenu(ArrayList<Menu> menuList, Menu m) {
+		menuList.add(m);
+		System.out.println("Menu added!");
+	}
+
+	//delete existing menu
+	public static void deleteItemMenu(ArrayList<Menu> menuList, String menuName, ArrayList<MenuItem> menuItemList) {
+		Iterator<Menu> iterator = menuList.iterator();
+		while (iterator.hasNext()) {
+			Menu menu = iterator.next();
+			if (menu.getMenuName().equalsIgnoreCase(menuName)) {
+				iterator.remove();
+				System.out.println("Menu deleted.");
+				// Also delete the associated menu items
+				deleteMenuItems(menuItemList, menuName); // Corrected parameter name
+				return;
+			}
 		}
+		System.out.println("Menu not found.");
+	}
 
-		public static Menu inputMenu() {
-		    String menuName = Helper.readString("Enter menu name > ");
-		    ArrayList<String> itemNames = new ArrayList<>();
-
-		    int numItems = Helper.readInt("Enter number of items in the menu > ");
-		    for (int i = 1; i <= numItems; i++) {
-		        String itemName = Helper.readString(String.format("Enter name of item %d > ", i));
-		        itemNames.add(itemName);
-		    }
-
-		    Menu newMenu = new Menu(menuName, itemNames);
-		    return newMenu;
+	//delete associated menu items
+	public static void deleteMenuItems(ArrayList<MenuItem> menuItemList, String menuNameToDelete) {
+		Iterator<MenuItem> iterator = menuItemList.iterator();
+		while (iterator.hasNext()) {
+			MenuItem menuItem = iterator.next();
+			if (menuItem.getMenuName().equalsIgnoreCase(menuNameToDelete)) {
+				iterator.remove();
+			}
 		}
-
-		//add new menu
-		public static void addMenu(ArrayList<Menu> menuList, Menu m) {
-		    menuList.add(m);
-		    System.out.println("Menu added!");
-		}
-
-		//delete existing menu
-		public static void deleteItemMenu(ArrayList<Menu> menuList, String menuName, ArrayList<MenuItem> menuItemList) {
-		    Iterator<Menu> iterator = menuList.iterator();
-		    while (iterator.hasNext()) {
-		        Menu menu = iterator.next();
-		        if (menu.getMenuName().equalsIgnoreCase(menuName)) {
-		            iterator.remove();
-		            System.out.println("Menu deleted.");
-		            // Also delete the associated menu items
-		            deleteMenuItems(menuItemList, menuName); // Corrected parameter name
-		            return;
-		        }
-		    }
-		    System.out.println("Menu not found.");
-		}
-
-		//delete associated menu items
-		public static void deleteMenuItems(ArrayList<MenuItem> menuItemList, String menuNameToDelete) {
-		    Iterator<MenuItem> iterator = menuItemList.iterator();
-		    while (iterator.hasNext()) {
-		        MenuItem menuItem = iterator.next();
-		        if (menuItem.getMenuName().equalsIgnoreCase(menuNameToDelete)) {
-		            iterator.remove();
-		        }
-		    }
-		}
+	}
 
 
 	//================================= Add/View/Delete Order =================================
 	//add new order
+	public static void addOrder(ArrayList<Order> orderList, String name, String orderDescription, double orderPrice, boolean isCollected) {
+		Order newOrder = new Order(name, orderDescription, orderPrice, isCollected);
+		orderList.add(newOrder);
+		System.out.println("Order added!");
+	}
 
 
 	//view all orders
+	public static void viewAllOrders(ArrayList<Order> orderList) {
+		C206_CaseStudy.setHeader("ORDER LIST");
+		String output = String.format("%-10s %-30s %-10s %-10s\n", "ORDER NO.", "DESCRIPTION", "PRICE", "COLLECTED");
+		output += retrieveAllOrders(orderList);
+		System.out.println(output);
+	}
+
+	public static String retrieveAllOrders(ArrayList<Order> orderList) {
+		String output = "";
+
+		for (Order order : orderList) {
+			String collectedStatus = order.isCollected() ? "Yes" : "No";
+			output += String.format("%-10d %-30s $%-9.2f %-10s\n", order.getOrderNo(), order.getOrderDescription(), order.getOrderPrice(), collectedStatus);
+		}
+		return output;
+	}
+
 
 	//delete existing order
+	public static void deleteOrder(ArrayList<Order> orderList, int orderNo) {
+		Iterator<Order> iterator = orderList.iterator();
+		while (iterator.hasNext()) {
+			Order order = iterator.next();
+			if (order.getOrderNo() == orderNo) {
+				iterator.remove();
+				System.out.println("Order deleted.");
+				return;
+			}
+		}
+		System.out.println("Order not found.");
+	}
 
 	//================================= Add/View/Delete Queue =================================
 	//add new queue
 	public static void addQueue(ArrayList<Stall> stallList, ArrayList<Queue> queueList, ArrayList<Order> orderList) {
 		String name = Helper.readString("Enter name of stall > ");
 
-		for (int i = 0; i < stallList.size(); i++) {
-			if (stallList.get(i).getStallName().equalsIgnoreCase(name)) {
-				if (queueList.get(i).getStallName().equalsIgnoreCase(name)) {
-					Queue queue = new Queue(name, orderList.get(i).getOrderNo(), setEstWait(orderList.get(i).getOrderNo()));
-					System.out.println("Queue has been added succesfully!");
-				}
-				else {
-					System.out.println("Stall already has a queue!");
-				}
-			}
-			else {
-				System.out.println("Stall does not exist!");
+		int totalOrders = 0;
+		for (Order order : orderList) {
+			if (order.getName().equalsIgnoreCase(name)) {
+				totalOrders++;
 			}
 		}
 
+		for (Stall stall : stallList) {
+			if (stall.getStallName().equalsIgnoreCase(name)) {
+				int time = Helper.readInt("Enter estimated time for order (in minutes) > ");
+				queueList.add(new Queue(stall.getStallName(), totalOrders, time));
+				System.out.println("Queue has been added successfully!");
+				return; 
+			}
+		}
+
+		System.out.println("Stall not found.");
 	}
+
 
 	//view all queues
 	public static void viewAllQueues (ArrayList<Stall> stallList, ArrayList<Queue> queueList, ArrayList<Order> orderList) {
-		for (int i = 0; i < stallList.size(); i++) {
-			Queue queue = new Queue(stallList.get(i).getStallName(), orderList.get(i).getOrderNo(), setEstWait(orderList.get(i).getOrderNo()));
-		}
 
 		String output = "";
 		output += String.format("%-30s %-15s %-30s\n", "Stall Name", "No. of Orders", "Estimated Waiting Time");
@@ -680,21 +732,22 @@ public class C206_CaseStudy {
 		String output = "";
 
 		for (int i = 0; i < queueList.size(); i++) {
-			output += String.format("%-30s %-15d %-30d mins\n", queueList.get(i).getStallName(), queueList.get(i).getOrders(), queueList.get(i).getEstWait());
+			output += String.format("%-30s %-15d %-17d mins\n", queueList.get(i).getStallName(), 
+					queueList.get(i).getOrders(), queueList.get(i).getEstWait());
 
 		} 
 		return output;
 	}
 
 	//delete existing queue
-	public static void deleteQueue(ArrayList<Queue> queueList) {
+	public static void deleteQueue(ArrayList<Queue> queueList, String stallName) {
 
 		if (queueList.size() <= 0) {
 			System.out.println("There are no queues available for deletion!");
 		}
 
 		else if (queueList.size() > 0) {
-			String stallName = Helper.readString("Enter stall name for queue to be deleted > ");
+			stallName = Helper.readString("Enter stall name for queue to be deleted > ");
 
 			if (queueList.size() >= 1) {
 				for (int i = 0; i < queueList.size(); i++) {

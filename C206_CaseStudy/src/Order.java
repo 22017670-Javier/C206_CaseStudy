@@ -8,6 +8,7 @@
  */
 
 public class Order {
+	private String name;
 	private int orderNo;
 	private String orderDescription;
 	private double orderPrice;
@@ -15,11 +16,11 @@ public class Order {
 	
 	private static int currentNo = 001;
 	
-	public Order(String orderDescription, double orderPrice, boolean isCollected) {
+	public Order(String name, String orderDescription, double orderPrice, boolean isCollected) {
+		this.name= name;
 		this.orderNo = currentNo++;
 		this.orderDescription = orderDescription;
 		this.orderPrice = orderPrice;
-		this.isCollected = isCollected;
 	}
 
 	public String getOrderDescription() {
@@ -52,6 +53,10 @@ public class Order {
 
 	public double getOrderPrice() {
 		return orderPrice;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 
